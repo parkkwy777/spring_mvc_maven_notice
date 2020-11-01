@@ -30,8 +30,8 @@ public class BoardCtrl {
 		 */
 		d.addAttribute("nlist", service.getNoticeList(n));
 
-		System.out.println("커밋");
-		System.out.println("커밋");
+		System.out.println("git에서 변경");
+	
 		return "/WEB-INF/view/index.jsp";
 
 	}
