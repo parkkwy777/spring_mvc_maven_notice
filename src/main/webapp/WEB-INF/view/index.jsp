@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 <title>게시판</title>
 <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>
@@ -63,20 +63,29 @@ margin:20px;
 		
 		
 		
-		$("#schword").keydown(function(){
+		$(".schword").keyup(function(){
+			var word=$(".schword").val();
 			
 			$.ajax({
 				type:"post",
-				url:'/notice/ajaxList',
+				url:"/notice/ajaxList?title="+word,
 				dataType:"json",
 				success:function(data){
-					alert("ddd");
+				
 					var content="";
 					
 					for(var i=0; i<data.nlist.length;i++){
-						content+=data.nlist[i].title +",";
+						content+="<tr>"
+							+"<td>"+data.nlist[i].no+"</td>"
+							+"<td>"+data.nlist[i].header+"</td>"
+							+"<td>"+data.nlist[i].title+"</td>"
+							+"<td>"+data.nlist[i].writer+"</td>"
+							+"<td>"+data.nlist[i].today+"</td>"
+							+"<td>"+data.nlist[i].counting+"</td>"
+							+"<td>"+data.nlist[i].upPoint+"</td>"
+							+"</tr>"
 					}
-					$("#dd").text(content);
+					$("#data").html(content);
 				},
 				error:function(err){
 					
@@ -138,9 +147,9 @@ margin:20px;
 	        <th>추천</th>
 	      </tr>
 	    </thead>
-	    <tbody>
+	    <tbody id="data">
 	  
-			<c:forEach items="${nlist}" var="notice">
+		<%-- 	<c:forEach items="${nlist}" var="notice">
 					<tr>
 						<td>${notice.no}</td>
 						<td>${notice.header}</td>
@@ -150,7 +159,7 @@ margin:20px;
 						<td>${notice.counting}</td>
 						<td>${notice.upPoint}</td>
 					</tr>
-			</c:forEach> 
+			</c:forEach>  --%>
 		</tbody>
 	  </table>
 			<ul class="pagination justify-content-center">

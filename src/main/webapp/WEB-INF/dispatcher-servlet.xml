@@ -72,7 +72,7 @@
 	</bean>
 -->
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
-<!-- 
+ 
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
        
          <property name="viewResolvers">
@@ -88,10 +88,9 @@
         <property name="defaultViews">
             <list>
                 <ref bean="jsonView" />
-                <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
             </list>
         </property>
-    </bean> -->
+    </bean>
 
 
 </beans> 	
