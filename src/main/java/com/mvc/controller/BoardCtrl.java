@@ -30,7 +30,8 @@ public class BoardCtrl {
 		 */
 		d.addAttribute("nlist", service.getNoticeList(n));
 
-		System.out.println("dd");
+		System.out.println("커밋");
+		System.out.println("커밋");
 		return "/WEB-INF/view/index.jsp";
 
 	}
