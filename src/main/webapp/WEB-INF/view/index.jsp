@@ -63,7 +63,7 @@ margin:20px;
 		
 		
 		
-		$(".schword").keyup(function(){
+	/* 	$(".schword").keyup(function(){
 			var word=$(".schword").val();
 			
 			$.ajax({
@@ -92,7 +92,7 @@ margin:20px;
 					console.log(err);
 				}
 			});
-		});
+		}); */
 		
 	});
 
@@ -149,7 +149,7 @@ margin:20px;
 	    </thead>
 	    <tbody id="data">
 	  
-		<%-- 	<c:forEach items="${nlist}" var="notice">
+		 	<c:forEach items="${nlist}" var="notice">
 					<tr>
 						<td>${notice.no}</td>
 						<td>${notice.header}</td>
@@ -159,7 +159,7 @@ margin:20px;
 						<td>${notice.counting}</td>
 						<td>${notice.upPoint}</td>
 					</tr>
-			</c:forEach>  --%>
+			</c:forEach> 
 		</tbody>
 	  </table>
 			<ul class="pagination justify-content-center">
