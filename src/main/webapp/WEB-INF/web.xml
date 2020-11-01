@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  version="4.0"
+  metadata-complete="true">
+
+<servlet>
+	<servlet-name>dispatcher</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>dispatcher</servlet-name>
+	<url-pattern>/</url-pattern>
+</servlet-mapping>
+
+<!-- <servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/board/*</url-pattern>
+	</servlet-mapping>
+		/는 root로써 board프로젝트 같은경우 /board이다.
+		때문에 /board/* 는 /board/board/* 이라는 뜻이다.
+		
+		dispatcher에 bean설정이 bean id="/index"일때 
+		/board/board/index 에서 인덱스가 실행이된다.
+		but index클레스에는 접근이되지만  서블릿경로가 board/board로 바뀌었기때문에
+		포워딩하여 view를 보여줄때 
+		경고: No mapping for GET /board/board/\WEB-INF\index.jsp
+		라는 에러가뜬다.
+		
+		마찮가지로 bean id="/board/index"를 하고 
+		board/board/*board/index*  를 하게되면
+		해당 클레스는 호출이되지만 
+		No mapping for GET /board/board/board/\WEB-INF\index.jsp
+		는 찾을수없다.
+		 
+ -->
+  <display-name>Welcome to Tomcat</display-name>
+  <description>
+     Welcome to Tomcat
+  </description>
+
+</web-app>

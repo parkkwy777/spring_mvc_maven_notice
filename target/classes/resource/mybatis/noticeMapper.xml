@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mvc.repository.BoardDao">
+
+	
+	<resultMap type="notice" id="noticeResult"/>
+	
+	<select id="totCnt" parameterType="notice" resultType="int">
+	   		SELECT count(no)
+			FROM notice
+			where 1=1
+			<if test="title !=null and title!='' ">
+				and title like '%'||#{title}||'%'
+			</if>
+			
+			<if test="writer !=null and writer!='' ">
+				and writer like '%'||#{name}||'%'
+			</if>
+			
+			
+	</select>
+	
+	
+	<select id="getNoticeList" parameterType="noticesch" resultMap="noticeResult">
+
+	SELECT *
+	FROM(
+		SELECT rownum cnt, n.*
+		FROM (SELECT *
+			  FROM notice n
+			  ORDER BY TOLIST DESC) n)
+			WHERE cnt BETWEEN #{start} AND #{end}
+		
+			<if test="title !=null and title!='' ">
+				and title like '%'||#{title}||'%'
+			</if>
+			
+			<if test="writer !=null and writer!='' ">
+				and writer like '%'||#{name}||'%'
+			</if>
+ 
+	
+	</select>
+
+
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+  
+  <configuration>
+ 	<typeAliases>
+ 	 	<typeAlias alias="notice" type="com.mvc.vo.Notice"/>
+ 	 	<typeAlias alias="noticesch" type="com.mvc.vo.NoticeSch"/>
+ 	</typeAliases>
+ 	<mappers>
+ 		
+ 		<mapper resource="resource/mybatis/noticeMapper.xml"/>
+ 	</mappers> 
+  </configuration>
