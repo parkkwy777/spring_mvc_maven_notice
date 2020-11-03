@@ -1,5 +1,7 @@
 package com.mvc.vo;
 
+import java.sql.Date;
+
 public class Notice {
 
 	/*
@@ -11,13 +13,30 @@ public class Notice {
 	
 	private int no;
 	private String header;
+	private int refno;
 	private String title;
 	private String writer;
 	private String today;
 	private int counting;
 	private int upPoint;
 	private String etc;
+	private Date tolist;
 	
+	
+	
+	
+	public int getRefno() {
+		return refno;
+	}
+	public void setRefno(int refno) {
+		this.refno = refno;
+	}
+	public Date getTolist() {
+		return tolist;
+	}
+	public void setTolist(Date tolist) {
+		this.tolist = tolist;
+	}
 	public int getNo() {
 		return no;
 	}

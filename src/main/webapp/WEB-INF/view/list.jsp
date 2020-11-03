@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-
+	
+<% request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,17 +101,24 @@ margin:20px;
 		
 
 		$("[name=curPage]").val(no);
+		//무조건get방식일때
+		/* 	$(location).attr("href","/notice/list?curPage="+no); */
 		$("form").submit();
 /* 	alert($("#cc").val(no));
 	alert(sr);
  */	}
+	// 상세페이지로 이동
+	function goDetail(no)
+	{
+		$(location).attr("href","/notice/detail?no="+no);
+	}
 </script>
 
 </head>
 <body>
 
 <form id="firstForm" method="post">
-	<input id="cc" type="hidden" name="curPage"/>
+	<input id="cc" type="hidden" name="curPage"/> 
 	<!-- 좌우 공백 제거 no-gutters -->
 	<div class="container">
 	  <h2>귀멸의 칼날 게시판</h2>
@@ -136,6 +144,15 @@ margin:20px;
 		  </div>
 	   
 	  <table class="table table-bordered table-hover">
+	  	<colgroup>
+	  		<col style="width:10%;">
+	  		<col style="width:15%;">
+	  		<col style="width:35%">
+	  		<col style="width:10%;">
+	  		<col style="width:10%;">
+	  		<col style="width:10%;">
+	  		<col style="width:10%;">
+	  	</colgroup>
 	    <thead>
 	      <tr>
 	        <th>번호</th>
@@ -147,10 +164,10 @@ margin:20px;
 	        <th>추천</th>
 	      </tr>
 	    </thead>
-	    <tbody id="data">
+	    <tbody id="data" >
 	  
 		 	<c:forEach items="${nlist}" var="notice">
-					<tr>
+					<tr onclick="javascript:goDetail(${notice.no})">
 						<td>${notice.no}</td>
 						<td>${notice.header}</td>
 						<td>${notice.title}</td>

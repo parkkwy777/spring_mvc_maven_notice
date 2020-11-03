@@ -8,6 +8,7 @@
  	<typeAliases>
  	 	<typeAlias alias="notice" type="com.mvc.vo.Notice"/>
  	 	<typeAlias alias="noticesch" type="com.mvc.vo.NoticeSch"/>
+ 	 	<typeAlias alias="reple" type="com.mvc.vo.Reple"/>
  	</typeAliases>
  	<mappers>
  		

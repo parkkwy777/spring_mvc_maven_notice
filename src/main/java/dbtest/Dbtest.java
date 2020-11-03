@@ -1,4 +1,4 @@
-package ss;
+package dbtest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

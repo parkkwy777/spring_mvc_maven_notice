@@ -43,4 +43,48 @@
 	</select>
 
 
+	<!-- 조회수 증가 -->
+	<update id="counting" parameterType="int">
+		update notice
+		set counting= counting+1
+		where no=#{no}
+	
+	</update>
+
+   <!-- 리플 조회  -->
+   
+   <select id="totCntReple"  parameterType="int"  resultType="int">
+		SELECT count(no)
+		FROM REPLE
+		WHERE NO=#{no}
+   </select>
+   <select id="getDetailNotice" parameterType="int" resultType="notice">
+		   SELECT *FROM 
+		   notice
+		   WHERE NO=#{no}   
+   </select>
+   
+   
+   	<resultMap type="reple" id="repleResult"/>
+ <!--   	public ArrayList<Reple> getReple(Notice n); -->
+   	<select id="getReple" parameterType="hashmap" resultMap="repleResult">
+		SELECT *
+		FROM(
+		SELECT rownum cnt, r.*
+		FROM 
+		(SELECT * 
+		FROM reple
+		WHERE NO=${no}
+		START WITH r_level=0
+		CONNECT BY PRIOR REPNO = R_LEVEL
+		ORDER BY r_tolist ASC) r)
+		WHERE cnt BETWEEN #{hash.start} AND #{hash.end}
+   	</select>
+   	
+   	<insert id="inserReple" parameterType="reple">
+   		INSERT INTO reple values(#{no},seq_reple.nextval,#{repno},to_char(SYSDATE,'MM-DD'),
+		#{r_writer},sysdate,#{r_etc})
+   	
+   	</insert>
+
 </mapper>

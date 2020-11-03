@@ -4,6 +4,9 @@ DROP TABLE notice;
 SELECT *FROM NOTICE;
 
 ALTER TABLE notice
+ADD refno number;
+
+ALTER TABLE notice
 ADD CONSTRAINT PK_notice
 	PRIMARY KEY(
 		NO
@@ -18,7 +21,9 @@ CREATE TABLE notice(
 	tolist DATE,
 	counting NUMBER,
 	upPoint NUMBER,
-	etc varchar2(500)
+	etc varchar2(500),
+	--답글 처리를 위해 상위글번호 
+	refno number
 );
 --reple 테이블 생성
 DROP TABLE reple;
@@ -83,7 +88,10 @@ INSERT INTO notice values(notice_seq.nextval,'잡담','제목3','시노부',to_c
 INSERT INTO notice values(notice_seq.nextval,'잡담','제목4','탄지로',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요4');
 INSERT INTO notice values(notice_seq.nextval,'잡담','제목5','무이치로',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요5');
 
-SELECT *FROM NOTICE;
+SELECT *FROM notice;
+UPDATE notice
+SET refno =0;
+
 /* 댓글 추가 
  * 	NO NUMBER,
 	repno NUMBER,
@@ -150,6 +158,6 @@ ORDER BY TOLIST desc;
 		FROM (SELECT *
 			  FROM notice n
 			  ORDER BY TOLIST DESC) n)
-			WHERE cnt BETWEEN 1 AND 3
+			WHERE cnt BETWEEN 1 AND 3;
 		
 

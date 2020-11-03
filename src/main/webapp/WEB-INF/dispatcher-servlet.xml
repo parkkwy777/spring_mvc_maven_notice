@@ -72,7 +72,26 @@
 	</bean>
 -->
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
- 
+
+	<bean id="ViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0"/>
+	</bean>
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+		<property name="order" value="1"/>
+		<!-- <property name="prefix" value="/WEB-INF/view" />
+
+		<property name="suffix" value=".jsp" /> -->
+
+	</bean>
+
+
+
+
+
+
+<!--  
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
        
          <property name="viewResolvers">
@@ -90,7 +109,7 @@
                 <ref bean="jsonView" />
             </list>
         </property>
-    </bean>
+    </bean> -->
 
 
 </beans> 	
