@@ -68,7 +68,7 @@ CREATE TABLE noticefile(
 
 DROP SEQUENCE NOTICE_SEQ;
 CREATE SEQUENCE notice_seq
-	START WITH 1
+	START WITH 6
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 999
@@ -80,7 +80,11 @@ CREATE SEQUENCE notice_seq
 	upPoint NUMBER,
 	etc varchar2(500)*/
 /*alter user C##park default tablespace users quota unlimited on users;*/
-
+select NOTICE_SEQ.currval from dual;
+select NOTICE_SEQ.nextval from dual;
+ALTER SEQUENCE notice_seq nocache;
+DELETE FROM NOTICE 
+WHERE NO>=7;
 /* 게시판글 추가 */
 INSERT INTO notice values(notice_seq.nextval,'잡담','제목1','렌고쿠쿄쥬로',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요');
 INSERT INTO notice values(notice_seq.nextval,'잡담','제목2','기유',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요2');

@@ -1,5 +1,11 @@
 SELECT *FROM REPLE;
 
+SELECT *FROM notice;
+SELECT SEQUENCE FROM dual;
+select * from user_sequences;
+select notice_seq.currval from dual;
+
+
 SELECT r.*
 FROM reple r
 WHERE NO=4

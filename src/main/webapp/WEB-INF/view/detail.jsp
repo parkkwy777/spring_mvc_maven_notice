@@ -19,7 +19,9 @@
 	margin-bottom: 10px;
 }
 #titleDiv{margin-bottom: 50px; }
-
+.cloking{
+	display:none;
+}
 </style>
 <script src="/webjars/jquery/3.2.1/dist/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -27,7 +29,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 	
-		$("#inReple").click(function(){
+		$(".inReple").click(function(){
 			var no=${detail.no};
 				$("[name=no]").val(no);
 			
@@ -48,7 +50,7 @@
 			}
 		});
 		
-		$("#cansle").click(function(){
+		$(".cansle").click(function(){
 			
 			if(confirm("취소하시겠습니까?")){
 				$("[name=r_writer]").val("");
@@ -57,6 +59,57 @@
 			}
 			
 		});
+		
+		
+		//클릭시에 댓글 추가창
+		
+		$(".updownInput").click(function(){
+			var html="";
+			var length=$(".updownInput").length;
+			var index=$(".updownInput").index(this);
+			
+		
+			if($(".cloking").eq(index).css("display")=="none"){ 
+				
+			
+				
+			html +=	'<td colspan="3">'
+				    +'<div class="input-group mb-3"'
+					+'style="box-sizing: border-box; width: 100%;">'
+					+'<input type="text" name="r_writer" placeholder="아이디"'
+					+'class="form-control" style="width: 10%;"> <input'
+					+' type="text" class="form-control" name="r_etc"'
+					+'placeholder="Something clever.." style="width: 60%;">'
+					+'<div class="input-group-append" style="width: 30%;">'
+					+'<button class="btn btn-primary inReple" type="button"'
+							+'style="width: 50%">OK</button>'
+						+'<button class="btn btn-danger cansle" type="button"'
+						+'style="width: 50%;">Cancel</button>'
+					+'</div></div></td>';
+				
+			//다른 댓글누를때 이전 댓글 입력창 인덱스 숨기기. 
+			// 클래스의 길만큼 반복하면서 현재 인덱스가 아니면 숨김처리.
+			for(var i=0; i<length; i++){
+				if(i!=index)
+				$(".cloking").eq(i).empty();
+				$(".cloking").eq(i).hide();		
+			}
+			//댓글 추가창 추가
+			$(".cloking").eq(index).show();
+			$(".cloking").eq(index).append(html);
+			
+			}
+			else{
+				$(".cloking").eq(index).empty();
+				$(".cloking").eq(index).hide();
+			}
+			
+			
+			
+		});
+		
+		
+		
 	});
 	
 	function inReple(){
@@ -118,44 +171,63 @@
 				<div id="repleContent">
 
 					<table class="table table-bordered table-hover">
-					<%-- 	<colgroup>
-							<col style="width: 10%;">
-							<col style="width: 15%;">
-							<col style="width: 35%">
-							<col style="width: 10%;">
-							<col style="width: 10%;">
-							<col style="width: 10%;">
-							<col style="width: 10%;">
-						</colgroup> --%>
+					 	<colgroup>
+							<col style="width: 30%;">
+							<col style="width: 50%;">
+							<col style="width: 20%">
+						</colgroup> 
 						<thead>
-							<tr>
+							<tr style="border-top:solid red;">
 								<th>글쓴이</th>
+								<th>내용</th>
 								<th>작성일</th>
-							    <th>내용</th>
+							
 							</tr>
 						</thead>
 						<tbody id="data">
 
 							<c:forEach items="${reples}" var="reple">
-								<tr onclick="javascript:goDetail(${reple.no})">
-									<td>${reple.r_writer}</td>
-									<td><fmt:formatDate value="${reple.r_tolist}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-									<td>${reple.r_etc}</td>
-								</tr>
-							</c:forEach>
+									
+									<tr class="updownInput" style="border-bottom:solid red;" onclick="javascript:goDetail(${reple.no})">
+									<c:if test="${reple.r_level==0}">
+										<td>${reple.r_writer}</td>
+										<td>${reple.r_etc}</td>
+									
+										<td style="text-align: center;"><fmt:formatDate
+												value="${reple.r_tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+									</c:if>
+										<c:if test="${reple.r_level>0}">
+										<tr onclick="javascript:goDetail(${reple.no})">
+										
+											<td>--${reple.r_writer}</td>
+											<td>${reple.r_etc}</td>
+											<td style="text-align: center;"><fmt:formatDate
+													value="${reple.r_tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										</tr>
+										</c:if>
+									</tr>
+									<tr class="cloking">
+									</tr>
+							</c:forEach>		
+									
+								
+								
+							
+							
 						</tbody>
 					</table>
 
 				</div> 
 			
 				<div class="input-group mb-3" style="box-sizing: border-box; width:100%;">
+				 
 				 <input type="text" name="r_writer" placeholder="아이디
 				 " class="form-control" style="width:10%;">
 					<input type="text" class="form-control" name="r_etc"
 						placeholder="Something clever.." style="width:60%;">
 					<div class="input-group-append" style="width:30%;">
-						<button id="inReple" class="btn btn-primary" type="button" style="width:50%">OK</button>
-						<button id="cansle" class="btn btn-danger" type="button" style="width:50%;">Cancel</button>
+						<button  class="btn btn-primary inReple" type="button" style="width:50%">OK</button>
+						<button  class="btn btn-danger cansle" type="button" style="width:50%;">Cancel</button>
 					</div>
 				</div>
 
@@ -172,6 +244,8 @@
 															nsch.endBlock:nsch.endBlock+1 })">다음</a></li>
 
 				</ul>
+
+	
 
 				<!-- <r_writer> -->
 			</div>
