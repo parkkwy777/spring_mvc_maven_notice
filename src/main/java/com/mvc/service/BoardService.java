@@ -31,15 +31,16 @@ public class BoardService {
 		if(n.getPageSize()==0) {
 			n.setPageSize(3);
 		}
+	
 		if(n.getCurPage()==0) {
 			n.setCurPage(1);
 		}
-		
+
 		//총 페이지 숫자
 		n.setPageCount((int)(Math.ceil(n.getCount()/(double)n.getPageSize())));
-	    
+	    //1
 		
-		//선택한 페이지에 보여질 첫번째 요소 
+		//선택한 페이지에 보여질 첫번째 요소 1
 		n.setStart((n.getPageSize()*n.getCurPage())-(n.getPageSize()-1));
 		//선택한 페이지에 보여질 끝
 		//System.out.println("?"+n.getPageSize()+"  "+ n.getCurPage());
@@ -79,6 +80,10 @@ public class BoardService {
 		//조회수 증가
 		dao.counting(no);
 		return dao.getDetailNotice(no);
+	}
+	//게시글 추가
+	public void noticeInput(Notice n) {
+		dao.noticeInput(n);
 	}
 	
 	//게시판 댓글 조회

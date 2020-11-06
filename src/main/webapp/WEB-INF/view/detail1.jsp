@@ -67,14 +67,17 @@ margin:20px;
 			var word=$(".schword").val();
 			
 			$.ajax({
-				type:"post",
-				url:"/notice/ajaxList?title="+word,
+				type:"get",
+				url:"/notice/ajaxList?title="+word+"&curPage=0",
 				dataType:"json",
 				success:function(data){
 				
-					var content="";
+		
 					
-					for(var i=0; i<data.nlist.length;i++){
+					var content="";
+					var content2="";
+					
+					for(var i=0; i<data.nlist.length; i++){
 						content+="<tr>"
 							+"<td>"+data.nlist[i].no+"</td>"
 							+"<td>"+data.nlist[i].header+"</td>"
@@ -83,8 +86,29 @@ margin:20px;
 							+"<td>"+data.nlist[i].today+"</td>"
 							+"<td>"+data.nlist[i].counting+"</td>"
 							+"<td>"+data.nlist[i].upPoint+"</td>"
+							+"<td>"+data.nlist[i].curPage+"</td>"
+							
 							+"</tr>"
+					
 					}
+					
+				 	content2+='<li class="page-item">'+ 
+					'<a class="page-link" href="javascript:goPage(data.nsch.startBlock-1})">이전</a>'+
+					'</li>';
+					console.log(data.nsch.startBlock);
+					console.log(data.nsch.endBlock);
+					
+					for(var cnt=data.nsch.startBlock; cnt<=data.nsch.endBlock; cnt++){
+						content2+='<li class="page-item data.nsch.curPage==cnt? '+'active'+':""}">'
+						+'<a class="page-link" href="javascript:goPage(cnt})">cnt}</a></li>';
+					}
+			
+					content2+=
+					'<li class="page-item">'+
+					'<a class="page-link" href="javascript:goPage(data.nsch.endBlock==data.nsch.pageCount?'+
+												'data.nsch.endBlock:data.nsch.endBlock+1)">다음</a></li>';
+				
+				
 					$("#data").html(content);
 				},
 				error:function(err){
@@ -109,47 +133,49 @@ margin:20px;
 </head>
 <body>
 
-<form id="firstForm" method="post">
-	<input id="cc" type="hidden" name="curPage"/>
-	<!-- 좌우 공백 제거 no-gutters -->
-	<div class="container">
-	  <h2>귀멸의 칼날 게시판</h2>
-	  <p>자유롭게 의견을 남겨주세요!</p>
-	  <div style="text-align:center;">
-	  <img src="/static/img/1597069796.jpg" class="rounded imgOption img-fluid">            
-	  </div>
-		
-		  <div class="float_right1">
-		  		<button id="schBtn" type="button" class="btn btn-success">검색
-		  		<!-- <span class="spinner-border spinner-border-sm loding">로딩 중</span> -->
-		  		</button>
-		  </div>
-		  <div class="float_right">
-		  		<input type="text"  id="schword" class="schword form-control">
-		  </div>
-		  
-		    <div class="float_right1">
-			  <select class="form-control" name="sching">
-			  	<option value="title">제목</option>
-			  	<option value="writer">작성자</option>
-			  </select>
-		  </div>
-	   
-	  <table class="table table-bordered table-hover">
-	    <thead>
-	      <tr>
-	        <th>번호</th>
-	        <th>말머리</th>
-	        <th>제목</th>
-	        <th>글쓴이</th>
-	        <th>작성일</th>
-	        <th>조회</th>
-	        <th>추천</th>
-	      </tr>
-	    </thead>
-	    <tbody id="data">
-	  
-		<%-- 	<c:forEach items="${nlist}" var="notice">
+	<form id="firstForm" method="post">
+		<input id="cc" type="hidden" name="curPage" />
+		<!-- 좌우 공백 제거 no-gutters -->
+		<div class="container">
+			<h2>귀멸의 칼날 게시판</h2>
+			<p>자유롭게 의견을 남겨주세요!</p>
+			<div style="text-align: center;">
+				<img src="/static/img/1597069796.jpg"
+					class="rounded imgOption img-fluid">
+			</div>
+
+			<div class="float_right1">
+				<button id="schBtn" type="button" class="btn btn-success">
+					검색
+					<!-- <span class="spinner-border spinner-border-sm loding">로딩 중</span> -->
+				</button>
+			</div>
+			<div class="float_right">
+				<input type="text" id="schword" class="schword form-control">
+			</div>
+
+			<div class="float_right1">
+				<select class="form-control" name="sching">
+					<option value="title">제목</option>
+					<option value="writer">작성자</option>
+				</select>
+			</div>
+
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>말머리</th>
+						<th>제목</th>
+						<th>글쓴이</th>
+						<th>작성일</th>
+						<th>조회</th>
+						<th>추천</th>
+					</tr>
+				</thead>
+				<tbody id="data">
+
+					<%-- 	<c:forEach items="${nlist}" var="notice">
 					<tr>
 						<td>${notice.no}</td>
 						<td>${notice.header}</td>
@@ -160,24 +186,11 @@ margin:20px;
 						<td>${notice.upPoint}</td>
 					</tr>
 			</c:forEach>  --%>
-		</tbody>
-	  </table>
+				</tbody>
+			</table>
 			<ul class="pagination justify-content-center">
-				<li class="page-item">
-					<a class="page-link" href="javascript:goPage(${nsch.startBlock-1})">이전</a>
-				</li>
-				<c:forEach var="cnt" begin="${nsch.startBlock}"
-					end="${nsch.endBlock}">
-					<li class="page-item ${nsch.curPage==cnt? 'active':''}">
-						<a class="page-link" href="javascript:goPage(${cnt})">${cnt}</a></li>
-				</c:forEach>
-				<li class="page-item">
-				<a class="page-link" href="javascript:goPage(${nsch.endBlock==nsch.pageCount?
-															nsch.endBlock:nsch.endBlock+1 })">다음</a></li>
 	
 			</ul>
-	
-	<h2 id="dd"></h2>
-	</div>
-</form>
+		</div>
+	</form>
 </body>

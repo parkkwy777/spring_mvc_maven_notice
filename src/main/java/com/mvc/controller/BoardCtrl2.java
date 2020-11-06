@@ -20,7 +20,7 @@ public class BoardCtrl2{
 	String noticeView(NoticeSch n, Model d) {
 		d.addAttribute("nlist",service.getNoticeList(n));
 		System.out.println("d12313");
-		return "\\WEB-INF\\index.jsp";
+		return "/WEB-INF/view/detail1.jsp";
 	}
 
 }

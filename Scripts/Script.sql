@@ -44,3 +44,21 @@ SELECT *FROM reple;
 						
 					DELETE *FROM reple 
 					WHERE NO=5;
+					
+				
+				
+	SELECT *
+	FROM(
+		SELECT rownum cnt, n.*
+		FROM (SELECT *
+			  FROM notice n
+			  WHERE 1=1
+			  ORDER BY TOLIST DESC) n)
+		
+	    SELECT *
+	    FROM notice 
+	    WHERE 1=1
+	    AND 
+	    ORDER BY TOLIST DESC;
+		
+	   SELECT *FROM notice;

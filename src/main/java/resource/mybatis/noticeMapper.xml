@@ -5,7 +5,7 @@
 	
 	<resultMap type="notice" id="noticeResult"/>
 	
-	<select id="totCnt" parameterType="notice" resultType="int">
+	<select id="totCnt" parameterType="noticesch" resultType="int">
 	   		SELECT count(no)
 			FROM notice
 			where 1=1
@@ -14,7 +14,7 @@
 			</if>
 			
 			<if test="writer !=null and writer!='' ">
-				and writer like '%'||#{name}||'%'
+				and writer like '%'||#{writer}||'%'
 			</if>
 			
 			
@@ -28,19 +28,22 @@
 		SELECT rownum cnt, n.*
 		FROM (SELECT *
 			  FROM notice n
-			  ORDER BY TOLIST DESC) n)
-			WHERE cnt BETWEEN #{start} AND #{end}
-		
+			  WHERE 1=1
 			<if test="title !=null and title!='' ">
 				and title like '%'||#{title}||'%'
 			</if>
 			
 			<if test="writer !=null and writer!='' ">
-				and writer like '%'||#{name}||'%'
+				and writer like '%'||#{writer}||'%'
 			</if>
- 
-	
+			  ORDER BY TOLIST DESC) n)
+			WHERE cnt BETWEEN #{start} AND #{end}
 	</select>
+	
+	<insert id="noticeInput" parameterType="notice" > 
+		INSERT INTO notice values(notice_seq.nextval,#{header},#{title},#{writer},
+							to_char(SYSDATE,'MM-DD'),sysdate,0, 0,#{etc},0)
+	</insert>
 
 
 	<!-- 조회수 증가 -->

@@ -34,8 +34,28 @@
 				//가장 상위
 				$("[name=repno]").val(0);
 				
-		$("#reple").attr("action","/notice?method=insertReple");
-		$("#reple").submit();
+			if($("[name=r_writer]").val()==null||$("[name=r_writer]").val()==""){
+				alert("아이디 입력하세요");
+				$("[name=r_writer]").focus();
+			}
+			else if($("[name=r_etc]").val()==null||$("[name=r_etc]").val()==""){
+				alert("내용을 입력하세요");
+				$("[name=r_etc]").focus();
+			}
+			else{	
+				$("#reple").attr("action","/notice?method=insertReple");
+				$("#reple").submit();
+			}
+		});
+		
+		$("#cansle").click(function(){
+			
+			if(confirm("취소하시겠습니까?")){
+				$("[name=r_writer]").val("");
+				$("[name=r_etc]").val("");
+				$("[name=r_writer]").focus();
+			}
+			
 		});
 	});
 	
@@ -71,6 +91,7 @@
 </head>
 <body>
 	<div class="container">
+		<br>
 		<h2>귀멸의 칼날 게시판</h2>
 		<br>
 		<h5>${detail.title}</h5>
@@ -134,7 +155,7 @@
 						placeholder="Something clever.." style="width:60%;">
 					<div class="input-group-append" style="width:30%;">
 						<button id="inReple" class="btn btn-primary" type="button" style="width:50%">OK</button>
-						<button onclick="" class="btn btn-danger" type="button" style="width:50%;">Cancel</button>
+						<button id="cansle" class="btn btn-danger" type="button" style="width:50%;">Cancel</button>
 					</div>
 				</div>
 

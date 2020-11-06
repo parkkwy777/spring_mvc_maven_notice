@@ -25,6 +25,8 @@ public interface BoardDao {
 	public int totCntReple(int no);
 	//선택한 게시글 detail
 	public Notice getDetailNotice(int no);
+	//게시글 추가
+	public void noticeInput(Notice n);
 	
 	//게시판 댓글 기능 
 	public ArrayList<Reple> getReple(HashMap<String, Object> hash);
