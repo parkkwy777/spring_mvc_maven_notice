@@ -10,6 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>
 <style>
 
@@ -29,16 +30,20 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 	
-		$(".inReple").click(function(){
+	/* 	$(".inReple").click(function(){ */
+		
+		 $(document).on("click",".inReple",function(){
+            // 동적으로 여러 태그가 생성된 경우라면 이런식으로 클릭된 객체를 this 키워드를 이용해서 잡아올 수 있다.
 			var no=${detail.no};
 				$("[name=no]").val(no);
-			
 				//가장 상위
-				$("[name=repno]").val(0);
-				
+				alert($("[name=repno]").val());
+			var index= $(".inReple").index(this);
 			if($("[name=r_writer]").val()==null||$("[name=r_writer]").val()==""){
 				alert("아이디 입력하세요");
-				$("[name=r_writer]").focus();
+				//동적으로 생성된 요소에 접근하기위해 document로 접근, 인덱스도 현재 클릭한 
+				//인덱스로 처리
+				$(document).find("[name=r_writer]").eq(index).focus();
 			}
 			else if($("[name=r_etc]").val()==null||$("[name=r_etc]").val()==""){
 				alert("내용을 입력하세요");
@@ -60,13 +65,12 @@
 			
 		});
 		
-		
 		//클릭시에 댓글 추가창
 		
-		$(".updownInput").click(function(){
+		$(".updownInput").click(function(n){
 			var html="";
-			var length=$(".updownInput").length;
-			var index=$(".updownInput").index(this);
+			var length= $(".updownInput").length;
+			var index= $(".updownInput").index(this);
 			
 		
 			if($(".cloking").eq(index).css("display")=="none"){ 
@@ -83,37 +87,34 @@
 					+'<div class="input-group-append" style="width: 30%;">'
 					+'<button class="btn btn-primary inReple" type="button"'
 							+'style="width: 50%">OK</button>'
-						+'<button class="btn btn-danger cansle" type="button"'
+						+'<button id="bb" class="btn btn-danger cansle" type="button"'
 						+'style="width: 50%;">Cancel</button>'
 					+'</div></div></td>';
 				
 			//다른 댓글누를때 이전 댓글 입력창 인덱스 숨기기. 
 			// 클래스의 길만큼 반복하면서 현재 인덱스가 아니면 숨김처리.
 			for(var i=0; i<length; i++){
-				if(i!=index)
-				$(".cloking").eq(i).empty();
-				$(".cloking").eq(i).hide();		
-			}
-			//댓글 추가창 추가
-			$(".cloking").eq(index).show();
-			$(".cloking").eq(index).append(html);
-			
+				if(i!=index){
+					$(".cloking").eq(i).empty();
+					$(".cloking").eq(i).hide();
+					}
+				}
+				//댓글 추가창 추가
+				$(".cloking").eq(index).show();
+				$(".cloking").eq(index).append(html);
+				
 			}
 			else{
 				$(".cloking").eq(index).empty();
 				$(".cloking").eq(index).hide();
 			}
-			
-			
-			
+
 		});
-		
-		
-		
+
 	});
 	
-	function inReple(){
-		
+	function refno(n){
+		$("[name=repno]").val(n);
 		
 	}
 	function goPage(no){
@@ -165,7 +166,7 @@
 		<form id="reple" method="post" autocomplete="off">
 			<input type="hidden" name="curPage"/>
 			<input type="hidden" name="no"/>
-			<input type="hidden" name="repno"/>
+
 			
 			<div id="repleDiv" >
 				<div id="repleContent">
@@ -185,35 +186,31 @@
 							</tr>
 						</thead>
 						<tbody id="data">
-
+	
 							<c:forEach items="${reples}" var="reple">
-									
-									<tr class="updownInput" style="border-bottom:solid red;" onclick="javascript:goDetail(${reple.no})">
+								<input type="hidden" name="repno" value="${reple.repno}"/>
+									<tr class="updownInput" style="border-bottom:solid red;">
 									<c:if test="${reple.r_level==0}">
 										<td>${reple.r_writer}</td>
 										<td>${reple.r_etc}</td>
 									
-										<td style="text-align: center;"><fmt:formatDate
-												value="${reple.r_tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										<td style="text-align: center;">
+										    <fmt:formatDate value="${reple.r_tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 									</c:if>
 										<c:if test="${reple.r_level>0}">
-										<tr onclick="javascript:goDetail(${reple.no})">
-										
-											<td>--${reple.r_writer}</td>
-											<td>${reple.r_etc}</td>
-											<td style="text-align: center;"><fmt:formatDate
-													value="${reple.r_tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-										</tr>
+											<tr onclick="javascript:goDetail(${reple.no})">
+											
+												<td>└ ${reple.r_writer}</td>
+												<td>${reple.r_etc}</td>
+												<td style="text-align: center;"><fmt:formatDate
+														value="${reple.r_tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+											</tr>
 										</c:if>
 									</tr>
 									<tr class="cloking">
 									</tr>
 							</c:forEach>		
-									
-								
-								
-							
-							
+	
 						</tbody>
 					</table>
 
@@ -245,9 +242,6 @@
 
 				</ul>
 
-	
-
-				<!-- <r_writer> -->
 			</div>
 		</form>
 	</div>

@@ -79,8 +79,7 @@
 		FROM reple
 		WHERE NO=${no}
 		START WITH r_level=0
-		CONNECT BY PRIOR REPNO = R_LEVEL
-		ORDER BY r_tolist ASC) r)
+		CONNECT BY PRIOR REPNO = R_LEVEL) r)
 		WHERE cnt BETWEEN #{hash.start} AND #{hash.end}
    	</select>
    	

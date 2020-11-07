@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mvc.service.BoardService;
 import com.mvc.vo.Notice;
 import com.mvc.vo.NoticeSch;
+import com.mvc.vo.Reple;
 
 @Controller
 @RequestMapping("/notice")
@@ -78,12 +77,14 @@ public class BoardCtrl {
 		  
 	  
 	  
-		/*
-		 * // 리블 생성
-		 * 
-		 * @RequestMapping(params ="method=insertReple") public String insertReple(Reple
-		 * r, Model d) {
-		 * 
-		 * service.insertReple(r); return "redirect:/notice/detail?no="+r.getNo(); }
-		 */
+		
+		  // 리블 생성
+		  
+		  @RequestMapping(params ="method=insertReple") 
+		  public String insertReple(Reple r, Model d){
+		  
+			  service.insertReple(r); 
+			  return "redirect:/notice/detail?no="+r.getNo(); 
+		  }
+		 
 }

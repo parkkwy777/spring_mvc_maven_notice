@@ -1,0 +1,4 @@
+driver=oracle.jdbc.driver.OracleDriver
+url=jdbc:oracle:thin:@125.187.56.35:1521:xe
+user=C##park
+pass=1111
