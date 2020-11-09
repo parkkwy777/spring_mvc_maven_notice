@@ -94,7 +94,7 @@ public class BoardService {
 		
 		//페이지에 나타낼 갯수
 		if(n.getPageSize()==0) {
-			n.setPageSize(5);
+			n.setPageSize(10);
 		}
 		if(n.getCurPage()==0) {
 			n.setCurPage(1);
@@ -115,7 +115,7 @@ public class BoardService {
 		n.setEnd(n.getPageSize()*n.getCurPage());
 		//System.out.println("끝나는페이지:"+n.getEnd());
 		//한번에 보여질 블럭사이즈
-		n.setBlockSize(3);
+		n.setBlockSize(10);
 		
 		//
 		int blocknum=((int)Math.ceil(n.getCurPage()/(double)n.getBlockSize()));
@@ -142,6 +142,21 @@ public class BoardService {
 	
 	//댓글등록 
 	public void insertReple(Reple r) {
+		//form안에 같은이름 name이 2개 있을경우 ,로 붙는다. 
+		//하나만 입력처리.
+	
+		//0부터 ,전까지
+		/*
+		 * r.setR_etc(r.getR_etc().substring (0,r.getR_etc().indexOf(",")));
+		 * 
+		 * r.setR_writer(r.getR_writer().substring (0,r.getR_writer().indexOf(",")));
+		 */
+		
+		
+		 r.setR_etc(r.getR_etc().replace(",",""));
+		 r.setR_writer(r.getR_writer().replace(",",""));
+		 
+		
 		dao.inserReple(r);
 	}
 

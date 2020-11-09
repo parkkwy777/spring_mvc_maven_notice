@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 <title>게시판</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>
 <style>
 html{
@@ -116,8 +117,8 @@ margin:20px;
 		$("[name=curPage]").val(no);
 		
 		$(location).attr("href","/notice/list?curPage="+no);
-		$("form").focus();
-		$("form").submit();
+	/* 	$("form").focus();
+		$("form").submit(); */
 		
 	}
 	// 상세페이지로 이동

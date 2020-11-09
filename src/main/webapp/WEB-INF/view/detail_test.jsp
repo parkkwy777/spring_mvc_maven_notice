@@ -67,7 +67,7 @@ margin:20px;
 			var word=$(".schword").val();
 			
 			$.ajax({
-				type:"get",
+				type:"post",
 				url:"/notice/ajaxList?title="+word+"&curPage=0",
 				dataType:"json",
 				success:function(data){

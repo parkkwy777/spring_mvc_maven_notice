@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>
 <style>
 #content{
@@ -34,8 +35,26 @@
 		
 		$(".btn-success").click(function(){
 
-			$("#ss").attr("action","/notice?method=input");
-			$("#ss").submit();
+			if($("[name=writer]").val()==null||$("[name=writer]").val()==""){
+				alert("작성자명을 입력하세요");
+				$("[name=writer]").focus();
+			}
+			else if($("[name=title]").val()==null||$("[name=title]").val()==""){
+				alert("제목을 입력하세요");
+				$("[name=title]").focus();
+			}
+			else if($("[name=etc]").val()==null||$("[name=etc]").val()==""){
+				alert("내용을 입력하세요");
+				$("[name=etc]").focus();
+			}
+			else{	
+				
+/* 				 //form이 post여도 get방식처럼 쿼리스트링으로 값을 전송할수있다.
+				$("form").attr("action","/notice/nono1?writer=wwqewee");
+				 */
+				$("form").attr("action","/notice?method=input");
+				$("form").submit();
+			}
 			
 			
 		});
@@ -46,7 +65,8 @@
 
 </head>
 <body>
-	<form id="ss" method="post">
+
+	<form method="post">
 		<div class="container">
 			<br>
 			<h2>귀멸의 칼날 게시판</h2>
