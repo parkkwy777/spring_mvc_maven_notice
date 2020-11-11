@@ -117,8 +117,8 @@ margin:20px;
 		$("[name=curPage]").val(no);
 		
 		$(location).attr("href","/notice/list?curPage="+no);
-		$("form").focus();
-		$("form").submit();
+	/* 	$("form").focus();
+		$("form").submit(); */
 		
 	}
 	// 상세페이지로 이동

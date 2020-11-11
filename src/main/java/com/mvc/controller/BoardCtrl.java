@@ -32,9 +32,6 @@ public class BoardCtrl {
 	
 		d.addAttribute("nlist", service.getNoticeList(nsh));
 
-		System.out.println("git에서 변경");
-		
-	
 		return "/WEB-INF/view/list.jsp";
 
 	}
@@ -52,6 +49,7 @@ public class BoardCtrl {
 	  public String noticeDetail(@ModelAttribute("nsch") NoticeSch nsh,Notice n, Model d) {
 		  //선택한 게시글 모델로 전달
 		 System.out.println(n.getNo());
+		 System.out.println("detail curpage:"+nsh.getCurPage());
 		  d.addAttribute("detail",service.getDetailNotice(n.getNo()));
 		  d.addAttribute("reples",service.getReple(nsh,n.getNo()));
 		 
@@ -66,9 +64,8 @@ public class BoardCtrl {
 	  }
 
 		// method=input 형태일때 호출되고 get방식으로 다른 값 넘어오면 맵핑 안됨. only post
-	  @RequestMapping(params="method=input")
+		@RequestMapping(params="method=input")
 	  public String noticeInput1(Notice n) {
-		System.out.println(n.getHeader());
 		  service.noticeInput(n);
 		  
 		  return "redirect:/notice/list";
@@ -80,11 +77,23 @@ public class BoardCtrl {
 		
 		  // 리블 생성
 		  
-		  @RequestMapping(params ="method=insertReple") 
-		  public String insertReple(Reple r, Model d){
-		  
+		@RequestMapping(params ="method=insertReple") 
+		  public String insertReple(NoticeSch n, Reple r, Model d){
+			
 			  service.insertReple(r); 
-			  return "redirect:/notice/detail?no="+r.getNo(); 
+			  System.out.println("curpage:"+n.getCurPage());
+			return "redirect:/notice/detail?no="+r.getNo()+"&curPage="+n.getCurPage();
+			 
+		  }
+		  
+		  @RequestMapping(params ="method=insertRepleAjax") 
+		  public String insertRepleAjax(Reple r, Model d){
+			  System.out.println(r.getR_etc()+"왜?");
+			 
+			  
+			  service.insertReple(r); 
+			  return "true";
+				/* return "redirect:/notice/detail?no="+r.getNo(); */
 		  }
 		 
 }

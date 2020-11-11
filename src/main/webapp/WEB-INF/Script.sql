@@ -136,8 +136,8 @@ ORDER BY r_tolist desc;
 
 	
 CREATE TABLE notice1
-AS SELECT *FROM notice;
-
+AS SELECT *FROM reple;
+SELECT *FROM reple;
 CREATE TABLE reple2
 AS SELECT NO,repno,R_LEVEL,R_TODAY ,R_WRITER,R_TOLIST ,R_ETC FROM reple1;
 CREATE TABLE notice2
