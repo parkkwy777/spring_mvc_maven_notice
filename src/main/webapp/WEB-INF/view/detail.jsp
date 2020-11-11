@@ -191,7 +191,7 @@
 <body>
 	<div class="container">
 		<br>
-		<h2>귀멸의 칼날 게시판</h2>
+		<h2>공부 게시판</h2>
 		<br>
 		<h5>${detail.title}</h5>
 

@@ -136,10 +136,10 @@ margin:20px;
 	<!-- 좌우 공백 제거 no-gutters -->
 	<div class="container">
 	  <br>
-	  <h2>귀멸의 칼날 게시판</h2>
+	  <h2>공부 게시판</h2>
 	  <p>자유롭게 의견을 남겨주세요!</p>
 	  <div style="text-align:center;">
-	  <img src="/static/img/1597069796.jpg" class="rounded imgOption img-fluid">            
+	  <img src="/static/img/main.jpg" class="rounded imgOption img-fluid">            
 	  </div>
 		
 		  <div class="float_right1">
@@ -163,10 +163,10 @@ margin:20px;
 					<col style="width: 10%;">
 					<col style="width: 15%;">
 					<col style="width: 35%">
+					<col style="width: 18%;">
 					<col style="width: 10%;">
-					<col style="width: 10%;">
-					<col style="width: 10%;">
-					<col style="width: 10%;">
+					<col style="width: 6%;">
+					<col style="width: 6%;">
 				</colgroup>
 				<thead>
 					<tr>

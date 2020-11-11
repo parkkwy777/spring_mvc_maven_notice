@@ -1,10 +1,13 @@
 package com.mvc.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mvc.service.BoardService;
 import com.mvc.vo.Notice;
@@ -53,7 +56,7 @@ public class BoardCtrl {
 		  d.addAttribute("detail",service.getDetailNotice(n.getNo()));
 		  d.addAttribute("reples",service.getReple(nsh,n.getNo()));
 		 
-		  return "/WEB-INF/view/detail.jsp";
+		  return "/WEB-INF/view/detail_ajax.jsp";
 	  }
 	  //글쓰기 페이지
 		@RequestMapping("/noticeInput")
@@ -85,15 +88,19 @@ public class BoardCtrl {
 			return "redirect:/notice/detail?no="+r.getNo()+"&curPage="+n.getCurPage();
 			 
 		  }
-		  
+		
+		  @ResponseBody
 		  @RequestMapping(params ="method=insertRepleAjax") 
-		  public String insertRepleAjax(Reple r, Model d){
+		  public HashMap<String, String> insertRepleAjax(NoticeSch n,Reple r, Model d){
 			  System.out.println(r.getR_etc()+"왜?");
 			 
+			  HashMap<String, String> result= new HashMap<String, String>();
+			  
+			  result.put("result","sucess");
 			  
 			  service.insertReple(r); 
-			  return "true";
-				/* return "redirect:/notice/detail?no="+r.getNo(); */
+				return result;
+			  /* return "redirect:/notice/detail?no="+r.getNo()+"&curPage="+n.getCurPage(); */
 		  }
 		 
 }
