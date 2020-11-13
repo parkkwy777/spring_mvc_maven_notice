@@ -1,17 +1,8 @@
-ALTER TABLE notice 
-MODIFY today varchar2(100);
+/*ALTER TABLE notice 
+MODIFY today varchar2(100);*/
 DROP TABLE notice; 
-SELECT *FROM NOTICE;
 
-ALTER TABLE notice
-ADD refno number;
 
-ALTER TABLE notice
-ADD CONSTRAINT PK_notice
-	PRIMARY KEY(
-		NO
-	);
-	
 CREATE TABLE notice(
 	NO NUMBER,
 	header varchar2(50),
@@ -25,8 +16,23 @@ CREATE TABLE notice(
 	--답글 처리를 위해 상위글번호 
 	refno number
 );
+/*
+ALTER TABLE notice
+ADD refno number;
+*/
+
+ALTER TABLE notice
+ADD CONSTRAINT PK_notice
+	PRIMARY KEY(
+		NO
+	);
 --reple 테이블 생성
 DROP TABLE reple;
+DELETE FROM reple;
+DROP SEQUENCE seq_reple;
+ALTER TABLE reple 
+DROP CONSTRAINT FK_notice_to_reple;
+DROP TABLE reple CASCADE constraints;
 CREATE TABLE reple(
 	NO NUMBER,
 	repno NUMBER,
@@ -36,26 +42,21 @@ CREATE TABLE reple(
 	r_tolist DATE,
 	r_etc varchar(200)
 );
-DELETE FROM reple;
-DROP SEQUENCE seq_reple;
+ALTER TABLE reple
+ADD CONSTRAINT FK_notice_to_reple
+FOREIGN KEY(no)
+REFERENCES notice(no) ON DELETE CASCADE;
+
 CREATE SEQUENCE seq_reple
 	START WITH 1
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 999
 	CYCLE;
-
+ALTER SEQUENCE seq_reple nocache;
 -- no를 참조키로 설정하고 부모는 notice테이블의 no로 설정
-ALTER TABLE reple 
-DROP CONSTRAINT FK_notice_to_reple;
 
-DROP TABLE reple CASCADE constraints;
-SELECT *FROM reple;
 
-ALTER TABLE reple
-ADD CONSTRAINT FK_notice_to_reple
-FOREIGN KEY(no)
-REFERENCES notice(no) ON DELETE CASCADE;
 
 
 CREATE TABLE noticefile(
@@ -68,11 +69,12 @@ CREATE TABLE noticefile(
 
 DROP SEQUENCE NOTICE_SEQ;
 CREATE SEQUENCE notice_seq
-	START WITH 6
+	START WITH 1
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 999
 	CYCLE;
+ALTER SEQUENCE notice_seq nocache;
 /*	title varchar(150),
 	writer varchar(150),
 	today DATE,
@@ -82,15 +84,15 @@ CREATE SEQUENCE notice_seq
 /*alter user C##park default tablespace users quota unlimited on users;*/
 select NOTICE_SEQ.currval from dual;
 select NOTICE_SEQ.nextval from dual;
-ALTER SEQUENCE notice_seq nocache;
+
 DELETE FROM NOTICE 
 WHERE NO>=7;
 /* 게시판글 추가 */
-INSERT INTO notice values(notice_seq.nextval,'잡담','제목1','렌고쿠쿄쥬로',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요');
-INSERT INTO notice values(notice_seq.nextval,'잡담','제목2','기유',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요2');
-INSERT INTO notice values(notice_seq.nextval,'잡담','제목3','시노부',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요3');
-INSERT INTO notice values(notice_seq.nextval,'잡담','제목4','탄지로',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요4');
-INSERT INTO notice values(notice_seq.nextval,'잡담','제목5','무이치로',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요5');
+INSERT INTO notice values(notice_seq.nextval,'잡담','제목1','렌고쿠쿄쥬로',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요',0);
+INSERT INTO notice values(notice_seq.nextval,'잡담','제목2','기유',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요2',0);
+INSERT INTO notice values(notice_seq.nextval,'잡담','제목3','시노부',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요3',0);
+INSERT INTO notice values(notice_seq.nextval,'잡담','제목4','탄지로',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요4',0);
+INSERT INTO notice values(notice_seq.nextval,'잡담','제목5','무이치로',to_char(SYSDATE,'MM-DD'),sysdate,0, 0,'안녕하세요5',0);
 
 SELECT *FROM notice;
 UPDATE notice
@@ -164,4 +166,25 @@ ORDER BY TOLIST desc;
 			  ORDER BY TOLIST DESC) n)
 			WHERE cnt BETWEEN 1 AND 3;
 		
-
+SELECT *FROM(	
+	SELECT *
+		FROM(
+		SELECT rownum cnt, r.*
+		FROM 
+		(SELECT * 
+		FROM reple
+		WHERE NO=3
+		--r_level 0인것만 1~10개
+		AND r_level =0
+		ORDER BY R_TOLIST desc) r)
+		WHERE cnt BETWEEN 1 AND 10
+		and R_LEVEL =0
+		UNION
+		--댓글 합치기위해
+		SELECT rownum cnt, r.* FROM 
+		reple r
+		WHERE R_LEVEL >1
+		)
+		--관계형으로 설정 r_level 0의 하위로 들어가게 처리
+		START WITH r_level=0
+		CONNECT BY PRIOR REPNO = R_LEVEL;

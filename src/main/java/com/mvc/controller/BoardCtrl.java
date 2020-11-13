@@ -1,10 +1,13 @@
 package com.mvc.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mvc.service.BoardService;
 import com.mvc.vo.Notice;
@@ -48,19 +51,24 @@ public class BoardCtrl {
 	  @RequestMapping("/detail")
 	  public String noticeDetail(@ModelAttribute("nsch") NoticeSch nsh,Notice n, Model d) {
 		  //선택한 게시글 모델로 전달
-		 System.out.println(n.getNo());
-		 System.out.println("detail curpage:"+nsh.getCurPage());
 		  d.addAttribute("detail",service.getDetailNotice(n.getNo()));
 		  d.addAttribute("reples",service.getReple(nsh,n.getNo()));
 		 
-		  return "/WEB-INF/view/detail.jsp";
+		  return "/WEB-INF/view/detail_ajax.jsp";
+		}
+	  
+	  @RequestMapping(params="method=repleAjax")
+	  public String repleAjax(@ModelAttribute("nsch") NoticeSch nsh,Notice n, Model d) {
+		  //선택한 게시글 모델로 전달
+		  d.addAttribute("reples",service.getReple(nsh,n.getNo()));
+		  return "jsonView";
 	  }
+	  
 	  //글쓰기 페이지
 		@RequestMapping("/noticeInput")
 	  public String noticeInput() {
 		  
 		  return "/WEB-INF/view/input.jsp";
-		
 	  }
 
 		// method=input 형태일때 호출되고 get방식으로 다른 값 넘어오면 맵핑 안됨. only post
@@ -72,11 +80,7 @@ public class BoardCtrl {
 		
 	  }
 		  
-	  
-	  
-		
-		  // 리블 생성
-		  
+		  // 리플 생성
 		@RequestMapping(params ="method=insertReple") 
 		  public String insertReple(NoticeSch n, Reple r, Model d){
 			
@@ -85,15 +89,17 @@ public class BoardCtrl {
 			return "redirect:/notice/detail?no="+r.getNo()+"&curPage="+n.getCurPage();
 			 
 		  }
-		  
+		
+		  @ResponseBody
 		  @RequestMapping(params ="method=insertRepleAjax") 
-		  public String insertRepleAjax(Reple r, Model d){
-			  System.out.println(r.getR_etc()+"왜?");
+		  public HashMap<String, String> insertRepleAjax(NoticeSch n,Reple r, Model d){
 			 
+			  HashMap<String, String> result= new HashMap<String, String>();
+			  
+			  result.put("result","sucess");
 			  
 			  service.insertReple(r); 
-			  return "true";
-				/* return "redirect:/notice/detail?no="+r.getNo(); */
+				return result;
 		  }
 		 
 }

@@ -69,7 +69,7 @@
 	<form method="post">
 		<div class="container">
 			<br>
-			<h2>귀멸의 칼날 게시판</h2>
+			<h2>공부 게시판</h2>
 			<br>
 			<div class="form-group" style="width: 20%;">
 				<label for="writer">작성자:</label> <input type="text"

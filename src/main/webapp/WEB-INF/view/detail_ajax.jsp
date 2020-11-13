@@ -30,23 +30,26 @@
 </style>
 <script src="/webjars/jquery/3.2.1/dist/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){
-	
-	/* 	$(".inReple").click(function(){ */
-		
-		 $(document).on("click",".inReple",function(){
-            // 동적으로 여러 태그가 생성된 경우라면 이런식으로 클릭된 객체를 this 키워드를 이용해서 잡아올 수 있다.
-			 var no=${detail.no};
-				$("[name=no]").val(no);
-				
-			var index= $(".inReple").index(this);
+		 getReple();
+		//동적으로 생성한 요소도 탐색 가능 $(document)
+		$(document).on("click",".inReple",function(){
 
+			var length=$(".inReple").length;
+			 // 동적으로 여러 태그가 생성된 경우라면 이런식으로 클릭된 객체를 this 키워드를 이용해서 잡아올 수 있다.
+            var index= $(".inReple").index(this);
 			var r_writer=$("[name=r_writer]").eq(index).val();
 			var r_etc=$("[name=r_etc]").eq(index).val();
-		
-
+			var repno;
+			
+			if($(".inReple").eq(index).attr("id")=="first"){
+				$("[name=repno]").val(0);
+			}
+	
+			
 			if(r_writer==null||r_writer==""){
 				alert("아이디 입력하세요");
 				/* //동적으로 생성된 요소에 접근하기위해 document로 접근, 인덱스도 현재 클릭한 
@@ -62,28 +65,39 @@
 			}
 			else{	
 				
-				alert(etc);
-				$.ajax({
-					type:"get",
-					url:"/notice?method=insertRepleAjax",
-					data:{no:num, repno:repno, r_writer:writer, r_etc:etc},
-					dataType:"text",
-					contentType: 'application/x-www-form-urlencoded; charset=euc-kr',
-					success:function(data){
-						
-						if(data=="true"||data.equals("true")){
-							alert("등록성공");
-						}
-					},error:function(data){
-						alert("실패");
+				 
+				/* //post일때는 현재 url에 form에있는 값이 r_etc가 url에있는 값 + ,(form r_etc값) 으로 더해진다. 
+				$("#reple").attr("action","/notice/nono?r_etc=asdssad"); */
+				for(var i=0; i<length; i++){
+					if(i!=index){
+
+						$("[name=r_writer]").eq(i).val("");
+						$("[name=r_etc]").eq(i).val("");
 					}
-					
-				});
-			}	
+				}
+				
+				$.ajax({
+					type:"post",
+					url:"/notice?method=insertRepleAjax",
+					data:$("form").serialize(),/* {no:no, repno:repno, r_writer:r_writer, r_etc:r_etc} */
+					dataType:"json",
+					contentType: 'application/x-www-form-urlencoded; charset=euc-kr',
+					success:function(){
+						getReple();
+					},
+				    error:function(){
+				      	alert("실패");
+				    }
+				});/* .done(function(data) {
+
+					$("form").attr("action", "/notice/detail?no="+no);  //<<-- 처리 이후 리턴 페이지
+
+					$("form").submit();
+
+				});  */
 			
-				/*  동기식
-				$("#reple").attr("action","/notice?method=insertReple");
-				$("#reple").submit(); */
+			}	 
+
 		});
 		
 		$(".cansle").click(function(){
@@ -98,25 +112,29 @@
 		
 		//클릭시에 댓글 추가창
 		
-		$(".updownInput").click(function(n){
+		$(document).on("click",".updownInput",function(){
+			
 			var html="";
 			var length= $(".updownInput").length;
 			var index= $(".updownInput").index(this);
+	
 			
-		
 			if($(".cloking").eq(index).css("display")=="none"){ 
 				
-				var repnoTemp= $("[name=temp]")[index].value;
-				
-				$("[name=repno]").val(repnoTemp);			
-				
+		
+				//반복문으로 temp값 배열로 받아서 해당 클릭한 부분의 repno로쓸 값 받음.
+			
+				var repnoTemp= $("[name=temp]").val().split(",");
+					
+					$("[name=repno]").val(repnoTemp[index]);			
+					
 			html +=	'<td colspan="3">'
 				    +'<div class="input-group mb-3"'
 					+'style="box-sizing: border-box; width: 100%;">'
 					+'<input type="text" name="r_writer" placeholder="아이디"'
-					+'class="form-control" style="width: 10%;"> <input'
+					+'class="form-control" style="width: 10%;"/> <input'
 					+' type="text" class="form-control" name="r_etc"'
-					+'placeholder="Something clever.." style="width: 60%;">'
+					+'placeholder="Something clever.." style="width: 60%;"/>'
 					+'<div class="input-group-append" style="width: 30%;">'
 					+'<button class="btn btn-primary inReple" type="button"'
 							+'style="width: 50%">OK</button>'
@@ -127,6 +145,7 @@
 			//다른 댓글누를때 이전 댓글 입력창 인덱스 숨기기. 
 			// 클래스의 길만큼 반복하면서 현재 인덱스가 아니면 숨김처리.
 			for(var i=0; i<length; i++){
+				
 				if(i!=index){
 					$(".cloking").eq(i).empty();
 					$(".cloking").eq(i).hide();
@@ -146,31 +165,86 @@
 
 	});
 	
-	function refno(n){
-		$("[name=repno]").val(n);
+	//댓글 조회 에이작스처리
+
+
+	function getReple() {
+			var no=$("[name=no]").val();
+			var curPage=$("[name=curPage]").val();
 		
-	}
-	function goPage(no){
+				$.ajax({
+					type : "post",
+					url : "/notice?method=repleAjax",
+					data :{no:no,curPage:curPage},
+					dataType : "json",
+					contentType : 'application/x-www-form-urlencoded; charset=euc-kr',
+					success : function(data) {
+						$("[name=r_writer]").val("");
+						$("[name=r_etc]").val("");
+				
+						//조회할때 data 내용 초기화
+						$("#data").empty();
+				
+						var content = "";
+						var temp=[];
+						for ( var i in data.reples) {
+						
 			
-			$("[name=curPage]").val(no);
-			//무조건get방식일때
-			/* 	$(location).attr("href","/notice/list?curPage="+no); */
-			$("form").submit();
+							temp[i]=data.reples[i].repno;
+				
+							var r_tolist = moment(data.reples[i].r_tolist)
+									.format("YYYY-MM-DD HH:mm:ss");
+							content += '<tr class="updownInput" style="font-weight:bold; border-bottom: solid red;">';
+							if (data.reples[i].r_level == 0) {
+								
+								content += '<td>' + data.reples[i].r_writer
+										+ '</td>' + '<td>'
+										+ data.reples[i].r_etc + '</td>'
+										+ '<td style="text-align: center;">'
+										+ r_tolist + '</td></tr>';
+							}
+							if (data.reples[i].r_level > 0) {
+								
+								content += '<tr>' + '<td>└ '
+										+ data.reples[i].r_writer + '</td>'
+										+ '<td>' + data.reples[i].r_etc
+										+ '</td>'
+										+ '<td style="text-align: center;">'
+										+ r_tolist + '</td></tr>';
+							}
+							content +='<tr class="cloking">'
+									+ '</tr>';
+						
+						}
+						$("[name=temp]").val(temp);
+						$("#data").append(content);
+						
+						//페이징 ajax
+						$(".pagination").empty();
+						var content2="";
+					
+							content2+='<li class="page-item"><a class="page-link" href="javascript:goPage('+(data.nsch.startBlock-1)+')">이전</a></li>';
+					
+						for(var i=data.nsch.startBlock; i<=data.nsch.endBlock; i++){
+							content2+='<li class="page-item'+ (data.nsch.curPage==i? " active":"")+'">'
+							+'<a class="page-link" href="javascript:goPage('+i+')">'+i+'</a></li>';
+						}
+							content2+='<li class="page-item"><a class="page-link" href="javascript:goPage('
+									+(data.nsch.endBlock==data.nsch.pageCount? data.nsch.endBlock:data.nsch.endBlock+1)+')">다음</a></li>';
+							
+							$(".pagination").append(content2);
+					},
+					error : function() {
+						alert("조회실패");
+					}
+				});
 	}
-	
-	function goDetail(n){			
-	
-	
-		'<div class="input-group mb-3" style="box-sizing: border-box; width:100%;">'
-		 +'<input type="text" name="r_writer" placeholder="아이디"'
-		 +'class="form-control" style="width:10%;">'
-				+'<input type="text" class="form-control" name="r_etc"'
-				+'placeholder="Something clever.." style="width:60%;">'
-				+'<div class="input-group-append" style="width:30%;">'
-					+'<button onclick="inReple(${detail.no})" class="btn btn-primary" type="button" style="width:50%">OK</button>'
-					+'<button onclick="" class="btn btn-danger" type="button" style="width:50%;">Cancel</button>'
-				+'</div>'
-		+'</div>'
+
+	function goPage(no) {
+
+		var detail = ${detail.no};
+		$("[name=curPage]").val(no);
+		getReple();
 	}
 </script>
 
@@ -178,7 +252,7 @@
 <body>
 	<div class="container">
 		<br>
-		<h2>귀멸의 칼날 게시판</h2>
+		<h2>공부 게시판</h2>
 		<br>
 		<h5>${detail.title}</h5>
 
@@ -194,8 +268,10 @@
 		</div>
 		<div id="content">${detail.etc}</div>
 		<form id="reple" method="post" autocomplete="off">
-			<input type="hidden" name="curPage" /> <input type="hidden"
-				name="no" />
+			<input type="hidden" name="curPage" value="0"/> 
+			<input type="hidden" name="no" value="${detail.no}" />
+			<input type="hidden" name="repno" value="0"/>
+			<input type="hidden" name="temp" value="" disabled />
 
 
 			<div id="repleDiv">
@@ -217,61 +293,30 @@
 						</thead>
 						<tbody id="data">
 
-							<c:forEach items="${reples}" var="reple">
-								<input type="hidden" name="temp" value="${reple.repno}" />
-								<tr class="updownInput" style="border-bottom: solid red;">
-									<c:if test="${reple.r_level==0}">
-										<td>${reple.r_writer}</td>
-										<td>${reple.r_etc}</td>
-
-										<td style="text-align: center;"><fmt:formatDate
-												value="${reple.r_tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-									</c:if>
-									<c:if test="${reple.r_level>0}">
-										<tr>
-
-											<td>└ ${reple.r_writer}</td>
-											<td>${reple.r_etc}</td>
-											<td style="text-align: center;"><fmt:formatDate
-													value="${reple.r_tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-										</tr>
-									</c:if>
-								</tr>
-								<tr class="cloking">
-								</tr>
-							</c:forEach>
+						
 
 						</tbody>
 					</table>
 
 				</div>
-
+			
 				<div class="input-group mb-3"
 					style="box-sizing: border-box; width: 100%;">
 
 					<input type="text" name="r_writer" placeholder="아이디"
-						class="form-control" style="width: 10%;"> <input
+						class="form-control" style="width: 10%;" /> <input
 						type="text" class="form-control" name="r_etc"
-						placeholder="Something clever.." style="width: 60%;">
+						placeholder="Something clever.." style="width: 60%;"/>
 					<div class="input-group-append" style="width: 30%;">
-						<button class="btn btn-primary inReple" type="button"
+						<button class="btn btn-primary inReple" id="first" type="button"
 							style="width: 50%">OK</button>
 						<button class="btn btn-danger cansle" type="button"
 							style="width: 50%;">Cancel</button>
 					</div>
+			
 				</div>
 
 				<ul class="pagination justify-content-center">
-					<li class="page-item"><a class="page-link"
-						href="javascript:goPage(${nsch.startBlock-1})">이전</a></li>
-					<c:forEach var="cnt" begin="${nsch.startBlock}"
-						end="${nsch.endBlock}">
-						<li class="page-item ${nsch.curPage==cnt? 'active':''}"><a
-							class="page-link" href="javascript:goPage(${cnt})">${cnt}</a></li>
-					</c:forEach>
-					<li class="page-item"><a class="page-link"
-						href="javascript:goPage(${nsch.endBlock==nsch.pageCount?
-															nsch.endBlock:nsch.endBlock+1 })">다음</a></li>
 
 				</ul>
 
