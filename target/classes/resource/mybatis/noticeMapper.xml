@@ -71,7 +71,7 @@
    	<resultMap type="reple" id="repleResult"/>
  <!--   	public ArrayList<Reple> getReple(Notice n); -->
    	<select id="getReple" parameterType="hashmap" resultMap="repleResult">
-		SELECT *
+		<!-- SELECT *
 		FROM(
 		SELECT rownum cnt, r.*
 		FROM 
@@ -80,7 +80,25 @@
 		WHERE NO=${no}
 		START WITH r_level=0
 		CONNECT BY PRIOR REPNO = R_LEVEL) r)
+		WHERE cnt BETWEEN #{hash.start} AND #{hash.end} -->
+   SELECT *FROM(	
+	SELECT *
+		FROM(
+		SELECT rownum cnt, r.*
+		FROM 
+		(SELECT * 
+		FROM reple
+		WHERE NO=${no}
+		and r_level=0
+		ORDER BY R_TOLIST desc) r)
 		WHERE cnt BETWEEN #{hash.start} AND #{hash.end}
+		UNION
+		SELECT rownum cnt, r.* FROM 
+		reple r
+		WHERE R_LEVEL >0
+		)
+		START WITH r_level=0
+		CONNECT BY PRIOR REPNO = R_LEVEL
    	</select>
    	
    	<insert id="inserReple" parameterType="reple">

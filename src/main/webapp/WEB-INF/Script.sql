@@ -166,4 +166,25 @@ ORDER BY TOLIST desc;
 			  ORDER BY TOLIST DESC) n)
 			WHERE cnt BETWEEN 1 AND 3;
 		
-
+SELECT *FROM(	
+	SELECT *
+		FROM(
+		SELECT rownum cnt, r.*
+		FROM 
+		(SELECT * 
+		FROM reple
+		WHERE NO=3
+		--r_level 0인것만 1~10개
+		AND r_level =0
+		ORDER BY R_TOLIST desc) r)
+		WHERE cnt BETWEEN 1 AND 10
+		and R_LEVEL =0
+		UNION
+		--댓글 합치기위해
+		SELECT rownum cnt, r.* FROM 
+		reple r
+		WHERE R_LEVEL >1
+		)
+		--관계형으로 설정 r_level 0의 하위로 들어가게 처리
+		START WITH r_level=0
+		CONNECT BY PRIOR REPNO = R_LEVEL;
