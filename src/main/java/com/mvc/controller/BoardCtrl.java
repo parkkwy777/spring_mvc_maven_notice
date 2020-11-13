@@ -101,5 +101,6 @@ public class BoardCtrl {
 			  service.insertReple(r); 
 				return result;
 		  }
+		  //test
 		 
 }
