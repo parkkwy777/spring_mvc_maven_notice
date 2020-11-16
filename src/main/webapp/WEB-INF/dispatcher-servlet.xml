@@ -88,7 +88,10 @@
 	</bean>
 
 
-
+ <!-- # 파일 업로드를 위한 viewResolver
+	 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
 
 

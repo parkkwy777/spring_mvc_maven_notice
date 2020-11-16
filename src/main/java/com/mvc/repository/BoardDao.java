@@ -28,6 +28,10 @@ public interface BoardDao {
 	//게시글 추가
 	public void noticeInput(Notice n);
 	
+	// 파일 정보 등록..
+	public void insertFile(String fileName);
+	
+	
 	//게시판 댓글 기능 
 	public ArrayList<Reple> getReple(HashMap<String, Object> hash);
 	

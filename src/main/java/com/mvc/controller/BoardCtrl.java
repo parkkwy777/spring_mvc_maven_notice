@@ -74,8 +74,9 @@ public class BoardCtrl {
 		// method=input 형태일때 호출되고 get방식으로 다른 값 넘어오면 맵핑 안됨. only post
 		@RequestMapping(params="method=input")
 	  public String noticeInput1(Notice n) {
+			System.out.println("작성자:" +n.getWriter()+" 내용:"+n.getEtc());
+			System.out.println(n.getReport());
 		  service.noticeInput(n);
-		  
 		  return "redirect:/notice/list";
 		
 	  }

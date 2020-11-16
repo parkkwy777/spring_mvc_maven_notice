@@ -194,7 +194,7 @@
 				
 							var r_tolist = moment(data.reples[i].r_tolist)
 									.format("YYYY-MM-DD HH:mm:ss");
-							content += '<tr class="updownInput" style="font-weight:bold; border-bottom: solid red;">';
+							content += '<tr class="updownInput" style="font-weight:bold;">';
 							if (data.reples[i].r_level == 0) {
 								
 								content += '<td>' + data.reples[i].r_writer
@@ -205,7 +205,7 @@
 							}
 							if (data.reples[i].r_level > 0) {
 								
-								content += '<tr>' + '<td>└ '
+								content += '<tr>' + '<td>┗ '
 										+ data.reples[i].r_writer + '</td>'
 										+ '<td>' + data.reples[i].r_etc
 										+ '</td>'
@@ -284,7 +284,7 @@
 							<col style="width: 20%">
 						</colgroup>
 						<thead>
-							<tr style="border-top: solid red;">
+							<tr>
 								<th>글쓴이</th>
 								<th>내용</th>
 								<th>작성일</th>

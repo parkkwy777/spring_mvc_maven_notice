@@ -1,6 +1,9 @@
 package com.mvc.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class Notice {
 
@@ -22,9 +25,31 @@ public class Notice {
 	private String etc;
 	private Date tolist;
 	
+	private MultipartFile[] report;
+	private ArrayList<String> filenames;
 	
+	// 파일 로딩 정보 가지고 오기
+	private String[] fnames;
 	
-	
+
+	public MultipartFile[] getReport() {
+		return report;
+	}
+	public void setReport(MultipartFile[] report) {
+		this.report = report;
+	}
+	public ArrayList<String> getFilenames() {
+		return filenames;
+	}
+	public void setFilenames(ArrayList<String> filenames) {
+		this.filenames = filenames;
+	}
+	public String[] getFnames() {
+		return fnames;
+	}
+	public void setFnames(String[] fnames) {
+		this.fnames = fnames;
+	}
 	public int getRefno() {
 		return refno;
 	}

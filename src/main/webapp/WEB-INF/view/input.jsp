@@ -52,21 +52,27 @@
 /* 				 //form이 post여도 get방식처럼 쿼리스트링으로 값을 전송할수있다.
 				$("form").attr("action","/notice/nono1?writer=wwqewee");
 				 */
-				$("form").attr("action","/notice?method=input");
 				$("form").submit();
-			}
-			
-			
+			}	
 		});
 			
-
+		$(".custom-file-input").on("change",function(){
+			$(this).next(".custom-file-label").text($(this).val());
+		});
+		
+/* 		$(".btn-success").click(function(){
+			if(confirm("등록합니다.")){
+				$("form").attr("action","/notice?method=input");
+				$("form").submit();				
+			}
+		});	 */
 	});
 </script>
 
 </head>
 <body>
 
-	<form method="post">
+	<form method="post" action="/notice?method=input" enctype="multipart/form-data">
 		<div class="container">
 			<br>
 			<h2>공부 게시판</h2>
@@ -93,14 +99,38 @@
 				<label for="comment">Comment:</label>
 				<textarea name="etc" class="form-control" rows="10" id="comment"></textarea>
 			</div>
-			
-			<div class="float_right">
-		  		<button type="button" class="btn btn-danger">취소</button>
-		  	</div>
-			<div class="float_right">
-		  		<button type="button" class="btn btn-success">확인</button>
-		 	</div>
-		</div>
+
+	 	<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">첨부 파일</span>
+				</div>
+				<div class="custom-file">
+					<input type="file" name="report" class="custom-file-input"
+						id="file01" /> 
+						<label class="custom-file-label" for="file01">
+						파일을 선택하세요!!</label>
+				</div>
+			</div> 
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">첨부 파일</span>
+				</div>
+				<div class="custom-file">
+					<input type="file" name="report" class="custom-file-input"
+						id="file01" /> 
+						<label class="custom-file-label" for="file01">
+						파일을 선택하세요!!</label>
+				</div>
+			</div> 
+			<div class="form-group" style="margin:20px 0px 20px 0px;">
+				<div class="float_right">
+					<button type="button" class="btn btn-danger">취소</button>
+				</div>
+				<div class="float_right">
+					<button type="button" class="btn btn-success">확인</button>
+				</div>
+			</div>		
+		</div> 	
 	</form>
 </body>
 </html>

@@ -45,6 +45,9 @@
 							to_char(SYSDATE,'MM-DD'),sysdate,0, 0,#{etc},0)
 	</insert>
 
+	<insert id="insertFile" parameterType="String">
+		insert into noticefile values(NOTICE_SEQ.currval,#{fileName},sysdate,sysdate,'')
+	</insert>
 
 	<!-- 조회수 증가 -->
 	<update id="counting" parameterType="int">
