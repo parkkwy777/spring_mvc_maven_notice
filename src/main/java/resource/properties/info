@@ -3,5 +3,5 @@ url=jdbc:oracle:thin:@192.168.219.103:1521:xe
 user=C##park
 pass=1111
 # 파일 업로드 위치.
-upload=C:/Users/parkk/git/test/src/main/webapp/upload/
-tmpUpload=C:/Users/parkk/eclipse_test2/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/board/upload/
+upload=C:/Users/hyeongjun/git/spring_mvc_maven_notice/src/main/webapp/upload/ 
+tmpUpload=C:/java/git_test/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/board/upload/

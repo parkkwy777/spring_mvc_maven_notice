@@ -21,10 +21,6 @@ public class BoardCtrl {
 	@Autowired(required = false)
 	private BoardService service;
 
-	public void str() {
-
-	}
-
 	@RequestMapping("/list")
 	public String noticeView(@ModelAttribute("nsch") NoticeSch nsh, Model d) {
 		// 게시판 조회
@@ -73,11 +69,15 @@ public class BoardCtrl {
 
 		// method=input 형태일때 호출되고 get방식으로 다른 값 넘어오면 맵핑 안됨. only post
 		@RequestMapping(params="method=input")
-	  public String noticeInput1(Notice n) {
+	  public String noticeInput1(Notice n,Model d) {
 			System.out.println("작성자:" +n.getWriter()+" 내용:"+n.getEtc());
 			System.out.println(n.getReport());
-		  service.noticeInput(n);
-		  return "redirect:/notice/list";
+		try {
+		  d.addAttribute("inputSuccess", service.noticeInput(n));
+		}catch (Exception e) {
+		 System.out.println(e.getMessage());
+		}
+		  return "/WEB-INF/view/input.jsp";
 		
 	  }
 		  
@@ -102,6 +102,5 @@ public class BoardCtrl {
 			  service.insertReple(r); 
 				return result;
 		  }
-		  //test
 		 
 }

@@ -4,6 +4,8 @@
 
 	
 	<resultMap type="notice" id="noticeResult"/>
+	<resultMap type="String" id="strMap"/>
+	
 	
 	<select id="totCnt" parameterType="noticesch" resultType="int">
 	   		SELECT count(no)
@@ -109,5 +111,12 @@
 		#{r_writer},sysdate,#{r_etc})
    	
    	</insert>
+   	
+   	<!--파일 조회 -->
+	<select id="getfileName" resultMap="strMap" parameterType="int">
+		SELECT FNAME FROM NOTICEFILE
+		WHERE NO=#{NO}
+	</select> 
+   	
 
 </mapper>

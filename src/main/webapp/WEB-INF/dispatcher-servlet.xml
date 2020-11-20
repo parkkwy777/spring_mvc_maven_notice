@@ -55,14 +55,17 @@
 			value="com.mvc.repository"/>
 	</bean>       
 <!-- 컨트롤러 거치는 동적처리가 아닌 정적인 처리이기때문에 /static/html/ 은 
-	/** 과 같은 요청일때 디스패처의 해당 내용을 통해 루트는 /static/html/ 이 된다. 
+	/** 과 같은 요청일때 디스패처의 해당 내용을 통해 루트는 /static/html/ 이 된다.
+	<mvc:resources location="/static/html/" mapping="/**" />
  -->
  
  	<mvc:resources location="/static/" mapping="/static/**" />
-<!--	<mvc:resources location="/static/html/" mapping="/**" />-->
+ 	<mvc:resources location="/upload/" mapping="/upload/**" />
+
 	<mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**" />
-
-
+	
+	<mvc:resources location="{upload}" mapping="/webjars/**" />
+	<mvc:resources location="{tmpUpload}" mapping="/webjars/**" />
 
 <!-- <bean id="jsonMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 

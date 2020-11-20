@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <fmt:requestEncoding value="utf-8" />
 <!DOCTYPE html>
@@ -26,6 +27,10 @@
 
 .cloking {
 	display: none;
+}
+.imgView{
+ margin:20px 0px 20px 0px;
+
 }
 </style>
 <script src="/webjars/jquery/3.2.1/dist/jquery.min.js"></script>
@@ -82,7 +87,8 @@
 					data:$("form").serialize(),/* {no:no, repno:repno, r_writer:r_writer, r_etc:r_etc} */
 					dataType:"json",
 					contentType: 'application/x-www-form-urlencoded; charset=euc-kr',
-					success:function(){
+					success:function(data){
+						console.log(data);
 						getReple();
 					},
 				    error:function(){
@@ -163,6 +169,8 @@
 
 		});
 
+	
+		
 	});
 	
 	//댓글 조회 에이작스처리
@@ -267,6 +275,27 @@
 			</div>
 		</div>
 		<div id="content">${detail.etc}</div>
+
+		<c:forEach begin="1" end="${fn:length(detail.fnames)>1? (fn:length(detail.fnames)-1):(fn:length(detail.fnames))}" varStatus="sts">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">첨부 파일${sts.count}</span>
+						</div>
+
+						<div class="custom-file">
+							<input type="file" name="report" disabled="disabled" value="${detail.fnames[sts.index-1]}"
+								class="custom-file-input" id="file01" /> <label
+								class="custom-file-label" for="file01"> ${detail.fnames[sts.index-1]!=null?detail.fnames[sts.index-1]:"파일이 존재하지않습니다!!"}</label>
+						</div>
+
+					</div>
+					<div class="imgView">
+						<c:if test="${detail.fnames[sts.index-1]!=null}">
+							<img class="img" src="/upload/${detail.fnames[sts.index-1]}" style="max-width:500px; max-height:200px;"/>
+						</c:if>
+					</div>
+		</c:forEach>
+		
 		<form id="reple" method="post" autocomplete="off">
 			<input type="hidden" name="curPage" value="0"/> 
 			<input type="hidden" name="no" value="${detail.no}" />
@@ -299,7 +328,10 @@
 					</table>
 
 				</div>
-			
+
+
+
+
 				<div class="input-group mb-3"
 					style="box-sizing: border-box; width: 100%;">
 

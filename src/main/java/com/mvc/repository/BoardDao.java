@@ -27,6 +27,8 @@ public interface BoardDao {
 	public Notice getDetailNotice(int no);
 	//게시글 추가
 	public void noticeInput(Notice n);
+	//파일 이름 
+	public String[] getfileName(int no);
 	
 	// 파일 정보 등록..
 	public void insertFile(String fileName);

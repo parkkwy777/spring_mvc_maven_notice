@@ -25,13 +25,22 @@
 	margin-right:5px;
 	margin-bottom:8px;
 }
+.imgView{
+ margin:20px 0px 20px 0px;
 
+}
 </style>
 <script src="/webjars/jquery/3.2.1/dist/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		var inputSuccess="${inputSuccess}";
+		
+		if(inputSuccess=="true"){
+			$(location).attr("href","/notice/list");
+		}
 		
 		$(".btn-success").click(function(){
 
@@ -57,16 +66,35 @@
 		});
 			
 		$(".custom-file-input").on("change",function(){
-			$(this).next(".custom-file-label").text($(this).val());
-		});
+			
+			var fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf|JPG|JPEG|PNG|GIF|BMP|PDF)$/;
+			var index=	$(".custom-file-input").index(this);
 		
-/* 		$(".btn-success").click(function(){
-			if(confirm("등록합니다.")){
-				$("form").attr("action","/notice?method=input");
-				$("form").submit();				
+			if($(this).val().match(fileForm)){
+				$(this).next(".custom-file-label").text($(this).val());
+				fileView(this,index);
+				
 			}
-		});	 */
+			else{
+					
+					alert("이미지 파일이 아닙니다");
+			}
+		});
+
 	});
+	function fileView(file,index){
+		 var reader = new FileReader();
+		  var img ="";
+		  	img+='<img class="img" style="max-width:500px; max-height:200px;"/>';
+		  	
+		  	$(".imgView").eq(index).append(img);
+		  reader.onload = function (e) {
+			  $(".imgView").eq(index).children(".img").attr('src', e.target.result);  
+		  }
+		  
+		  reader.readAsDataURL(file.files[0]);
+		  
+	}
 </script>
 
 </head>
@@ -99,29 +127,24 @@
 				<label for="comment">Comment:</label>
 				<textarea name="etc" class="form-control" rows="10" id="comment"></textarea>
 			</div>
-
+		<c:forEach begin="1" end="3">
 	 	<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<span class="input-group-text">첨부 파일</span>
 				</div>
 				<div class="custom-file">
-					<input type="file" name="report" class="custom-file-input"
+					<input type="file" name="report" value="" class="custom-file-input"
 						id="file01" /> 
 						<label class="custom-file-label" for="file01">
 						파일을 선택하세요!!</label>
 				</div>
+				
+			</div>
+			<div class="imgView">
+				
 			</div> 
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text">첨부 파일</span>
-				</div>
-				<div class="custom-file">
-					<input type="file" name="report" class="custom-file-input"
-						id="file01" /> 
-						<label class="custom-file-label" for="file01">
-						파일을 선택하세요!!</label>
-				</div>
-			</div> 
+		</c:forEach>
+		
 			<div class="form-group" style="margin:20px 0px 20px 0px;">
 				<div class="float_right">
 					<button type="button" class="btn btn-danger">취소</button>

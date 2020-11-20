@@ -66,6 +66,10 @@ CREATE TABLE noticefile(
 	uptdte DATE,
 	etc varchar2(500)
 );
+ALTER TABLE noticefile
+ADD CONSTRAINT FK_notice_to_noticefile
+FOREIGN KEY(no)
+REFERENCES notice(no) ON DELETE CASCADE;
 
 DROP SEQUENCE NOTICE_SEQ;
 CREATE SEQUENCE notice_seq
@@ -115,8 +119,6 @@ INSERT INTO reple values(4,seq_reple.nextval,1,to_char(SYSDATE,'MM-DD'),
 INSERT INTO reple values(4,seq_reple.nextval,2,to_char(SYSDATE,'MM-DD'),
 						'댓댓댓글작성자',sysdate,'별로니까 별로지'	);
 
-SELECT *FROM REPLE r ;
-
 /* 댓글 게시판 */ 
 SELECT r.*
 FROM reple r
@@ -125,47 +127,6 @@ CONNECT BY PRIOR REPNO = R_LEVEL
 ORDER BY r.R_TOLIST DESC;
 
 
-SELECT r.*
-FROM reple r
-START WITH r_level=0
-CONNECT BY PRIOR REPNO = R_LEVEL
-ORDER BY r_tolist desc;
-
-
-	select rownum cnt, notice.* 
-	from notice
-	where 1=1;
-
-	
-CREATE TABLE notice1
-AS SELECT *FROM reple;
-SELECT *FROM reple;
-CREATE TABLE reple2
-AS SELECT NO,repno,R_LEVEL,R_TODAY ,R_WRITER,R_TOLIST ,R_ETC FROM reple1;
-CREATE TABLE notice2
-AS SELECT * FROM notice1;
-
-
-SELECT *
-FROM(
-	SELECT rownum cnt, n.*
-	FROM (SELECT * 
-		  FROM notice n
-		  ORDER BY TOLIST DESC) n)
-WHERE cnt BETWEEN 2 AND 5
-AND WRITER LIKE '%'||'탄지로'||'%';
-
-ORDER BY TOLIST desc; 
-
-
-	SELECT *
-	FROM(
-		SELECT rownum cnt, n.*
-		FROM (SELECT *
-			  FROM notice n
-			  ORDER BY TOLIST DESC) n)
-			WHERE cnt BETWEEN 1 AND 3;
-		
 SELECT *FROM(	
 	SELECT *
 		FROM(

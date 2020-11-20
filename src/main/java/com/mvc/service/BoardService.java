@@ -85,18 +85,24 @@ public class BoardService {
 	public Notice getDetailNotice(int no) {
 		//조회수 증가
 		dao.counting(no);
-		return dao.getDetailNotice(no);
+		Notice n=dao.getDetailNotice(no);
+		n.setFnames(dao.getfileName(no));
+		
+		
+		return n;
 	}
+	
 	//게시글 추가
-	public void noticeInput(Notice n) {
-		
+	public boolean noticeInput(Notice n) {
 		dao.noticeInput(n);
+		System.out.println("작성글 등록 완료");
 		
-		for (MultipartFile report : n.getReport()) { // 물리적 파일 정리]
-			System.out.println(report);
-			upload(report);
-
-		}
+			for (MultipartFile report : n.getReport()) { // 물리적 파일 정리]
+				
+					upload(report);
+				}
+			
+			return true;
 
 	}
 	
@@ -109,6 +115,7 @@ public class BoardService {
 		String fileName=mtf.getOriginalFilename();
 		
 		if(fileName!=null&&!fileName.equals("")) {
+			System.out.println("??");
 			File tmpFile = new File(tmpUpload+fileName);
 			// 해당 폴드에 동일한 파일이 있으면 삭제 처리
 			if(tmpFile.exists()) tmpFile.delete();
@@ -122,19 +129,21 @@ public class BoardService {
 			// 마지막에 올린 파일로 변경 처리..
 				Files.copy(tmpFile.toPath(), orgFile.toPath(), 
 							StandardCopyOption.REPLACE_EXISTING);
-				
-				
+				System.out.println(fileName);
+				dao.insertFile(fileName);
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			System.out.println(fileName);
-			dao.insertFile(fileName);
 			
+			}
+		
+		
 		}
+		
 	}
 	
 	
