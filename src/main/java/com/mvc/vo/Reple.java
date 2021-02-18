@@ -14,7 +14,7 @@ public class Reple {
 	private String r_writer;
 	private Date r_tolist;
 	private String r_etc;
-	
+	private String pass;
 	
 	public int getNo() {
 		return no;

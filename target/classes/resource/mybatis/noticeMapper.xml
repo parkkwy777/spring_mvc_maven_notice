@@ -44,7 +44,7 @@
 	
 	<insert id="noticeInput" parameterType="notice" > 
 		INSERT INTO notice values(notice_seq.nextval,#{header},#{title},#{writer},
-							to_char(SYSDATE,'MM-DD'),sysdate,0, 0,#{etc},0)
+							to_char(SYSDATE,'MM-DD'),sysdate,0, 0,#{etc},0,#{pass})
 	</insert>
 
 	<insert id="insertFile" parameterType="String">
@@ -108,7 +108,7 @@
    	
    	<insert id="inserReple" parameterType="reple">
    		INSERT INTO reple values(#{no},seq_reple.nextval,#{repno},to_char(SYSDATE,'MM-DD'),
-		#{r_writer},sysdate,#{r_etc})
+		#{r_writer},sysdate,#{r_etc},#{pass})
    	
    	</insert>
    	

@@ -24,7 +24,8 @@ public class Notice {
 	private int upPoint;
 	private String etc;
 	private Date tolist;
-	
+	private String pass;
+
 	private MultipartFile[] report;
 	private ArrayList<String> filenames;
 	
@@ -111,5 +112,11 @@ public class Notice {
 		this.etc = etc;
 	}
 	
+	public String getPass() {
+		return pass;
+	}
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
 	
 }

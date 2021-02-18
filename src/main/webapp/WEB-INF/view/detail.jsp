@@ -202,7 +202,7 @@
 			</div>
 			<div style="float: right;">
 				<span>조회수: ${detail.counting}&nbsp;|&nbsp;추천:
-					${detail.upPoint}&nbsp;|&nbsp; 댓글수: </span>
+					${detail.upPoint}&nbsp;|&nbsp; 댓글수:2 </span>
 			</div>
 		</div>
 		<div id="content">${detail.etc}</div>

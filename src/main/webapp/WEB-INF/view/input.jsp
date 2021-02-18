@@ -29,6 +29,10 @@
  margin:20px 0px 20px 0px;
 
 }
+.inline-block{
+display:inline-block;
+width:40%;
+}
 </style>
 <script src="/webjars/jquery/3.2.1/dist/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -47,6 +51,10 @@
 			if($("[name=writer]").val()==null||$("[name=writer]").val()==""){
 				alert("작성자명을 입력하세요");
 				$("[name=writer]").focus();
+			}
+			else if($("[name=pass]").val()==null || $("[name=pass]").val()==""){
+				alert("비밀번호를 입력하세요");
+				$("[name=pass]").focus();
 			}
 			else if($("[name=title]").val()==null||$("[name=title]").val()==""){
 				alert("제목을 입력하세요");
@@ -105,9 +113,11 @@
 			<br>
 			<h2>공부 게시판</h2>
 			<br>
-			<div class="form-group" style="width: 20%;">
-				<label for="writer">작성자:</label> <input type="text"
-					class="form-control" id="writer" name="writer">
+			<div class="form-group">
+			작성자 : <input type="text"
+					class="form-control inline-block" id="writer" name="writer">
+			비밀번호 : <input type="password"
+					class="form-control inline-block" id="pass" name="pass">
 			</div>
 			<div class="form-group">
 				<label for="title">제목:</label> <input type="text"
@@ -156,4 +166,11 @@
 		</div> 	
 	</form>
 </body>
+<script type="text/javascript">
+const firstInputGroup  = document.querySelector(".form-group");
+firstInputGroup.querySelectorAll("input").style.border='solid red';
+console.dir(firstInputGroup.querySelector("input"));
+
+
+</script>
 </html>

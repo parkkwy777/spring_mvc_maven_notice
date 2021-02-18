@@ -28,7 +28,6 @@ public class BoardCtrl {
 		 * ModelAttribute가 아래 역할을 대신해준다. 해당내용은 순서에 상관없이 리턴이 마지막이기때문에 상관없다.
 		 * d.addAttribute("nsch",nsh);
 		 */
-	
 		d.addAttribute("nlist", service.getNoticeList(nsh));
 
 		return "/WEB-INF/view/list.jsp";
@@ -45,7 +44,7 @@ public class BoardCtrl {
 	  }
 	  
 	  @RequestMapping("/detail")
-	  public String noticeDetail(@ModelAttribute("nsch") NoticeSch nsh,Notice n, Model d) {
+	  public String noticeDetail(@ModelAttribute("nsch") NoticeSch nsh, Notice n, Model d) {
 		  //선택한 게시글 모델로 전달
 		  d.addAttribute("detail",service.getDetailNotice(n.getNo()));
 		  d.addAttribute("reples",service.getReple(nsh,n.getNo()));

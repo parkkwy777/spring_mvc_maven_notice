@@ -41,7 +41,7 @@
 	      <property name="url" value="${url}"/>
 	      <property name="username" value="${user}"/>
 	      <property name="password" value="${pass}"/>
-	   </bean>
+	 </bean>
 
 	  <bean id="sqlSessionFactory" 
 	      class="org.mybatis.spring.SqlSessionFactoryBean">
