@@ -13,8 +13,8 @@ import com.mvc.service.BoardService;
 import com.mvc.vo.Notice;
 import com.mvc.vo.NoticeSch;
 import com.mvc.vo.Reple;
-
-@Controller
+  
+ @Controller
 @RequestMapping("/notice")
 public class BoardCtrl {
 
