@@ -32,6 +32,14 @@
  margin:20px 0px 20px 0px;
 
 }
+#view{
+	padding:20px;
+	margin-bottom:20px;
+	border:solid gray;
+}
+.bottom_button{
+	text-align:right;
+}
 </style>
 <script src="/webjars/jquery/3.2.1/dist/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -170,7 +178,17 @@
 		});
 
 	
-		
+		$(".input").click(function(){
+			location.href="/notice/noticeInput";
+		});
+		$(".delete").click(function(){
+			var address="/notice/noticeDelete?no="+${detail.no};
+			console.log(address);
+			location.href=address;
+		});
+		$(".update").click(function(){
+			location.href="/notice/noticeInput";
+		});
 	});
 	
 	//댓글 조회 에이작스처리
@@ -260,42 +278,51 @@
 <body>
 	<div class="container">
 		<br>
-		<h2>공부 게시판</h2>
-		<br>
-		<h5>${detail.title}</h5>
+		<div id="view">
+			<h2>공부 게시판</h2>
+			<br>
+			<h5>${detail.title}</h5>
 
-		<div id="titleDiv">
-			<div style="float: left;">
-				<span>글쓴이: ${detail.writer}&nbsp;|&nbsp;작성시간: <fmt:formatDate
-						value="${detail.tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
+			<div id="titleDiv">
+				<div style="float: left;">
+					<span>글쓴이: ${detail.writer}&nbsp;|&nbsp;작성시간: <fmt:formatDate
+							value="${detail.tolist}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
+				</div>
+				<div style="float: right;">
+					<span>조회수: ${detail.counting}&nbsp;|&nbsp;추천:
+						${detail.upPoint}&nbsp;|&nbsp; 댓글수: </span>
+				</div>
 			</div>
-			<div style="float: right;">
-				<span>조회수: ${detail.counting}&nbsp;|&nbsp;추천:
-					${detail.upPoint}&nbsp;|&nbsp; 댓글수: </span>
+			<div id="content">${detail.etc}</div>
+
+			<c:forEach begin="1"
+				end="${fn:length(detail.fnames)>1? (fn:length(detail.fnames)-1):(fn:length(detail.fnames))}"
+				varStatus="sts">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">첨부 파일${sts.count}</span>
+					</div>
+					<div class="custom-file">
+						<input type="file" name="report" disabled="disabled"
+							value="${detail.fnames[sts.index-1]}" class="custom-file-input"
+							id="file01" /> <label class="custom-file-label" for="file01">
+							${detail.fnames[sts.index-1]!=null?detail.fnames[sts.index-1]:"파일이 존재하지않습니다!!"}</label>
+					</div>
+
+				</div>
+				<div class="imgView">
+					<c:if test="${detail.fnames[sts.index-1]!=null}">
+						<img class="img" src="/upload/${detail.fnames[sts.index-1]}"
+							style="max-width: 500px; max-height: 200px;" />
+					</c:if>
+				</div>
+			</c:forEach>
+			<div class="bottom_button">
+				<button class="text-white bg-primary btn update">수정</button>
+				<button class="text-white bg-danger btn delete">삭제</button>
+				<button class="text-white bg-success btn input">글쓰기</button>
 			</div>
 		</div>
-		<div id="content">${detail.etc}</div>
-
-		<c:forEach begin="1" end="${fn:length(detail.fnames)>1? (fn:length(detail.fnames)-1):(fn:length(detail.fnames))}" varStatus="sts">
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text">첨부 파일${sts.count}</span>
-						</div>
-
-						<div class="custom-file">
-							<input type="file" name="report" disabled="disabled" value="${detail.fnames[sts.index-1]}"
-								class="custom-file-input" id="file01" /> <label
-								class="custom-file-label" for="file01"> ${detail.fnames[sts.index-1]!=null?detail.fnames[sts.index-1]:"파일이 존재하지않습니다!!"}</label>
-						</div>
-
-					</div>
-					<div class="imgView">
-						<c:if test="${detail.fnames[sts.index-1]!=null}">
-							<img class="img" src="/upload/${detail.fnames[sts.index-1]}" style="max-width:500px; max-height:200px;"/>
-						</c:if>
-					</div>
-		</c:forEach>
-		
 		<form id="reple" method="post" autocomplete="off">
 			<input type="hidden" name="curPage" value="0"/> 
 			<input type="hidden" name="no" value="${detail.no}" />
@@ -356,4 +383,5 @@
 		</form>
 	</div>
 </body>
+<script type="text/javascript"></script>
 </html>

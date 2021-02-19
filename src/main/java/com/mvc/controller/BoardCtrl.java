@@ -79,6 +79,30 @@ public class BoardCtrl {
 		  return "/WEB-INF/view/input.jsp";
 		
 	  }
+		//글삭제
+		@RequestMapping("/noticeDelete")
+		public String delete() {
+			return "/WEB-INF/view/delete.jsp";
+		}
+		@RequestMapping(params="method=delete")
+		public String deleteContent(Notice n,Model d) {
+			
+			try {
+				int result= service.delete(n);
+				if(result==0) {
+					d.addAttribute("result","cancle");
+				}
+				else {
+					d.addAttribute("result","success");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println(e.getMessage());
+				d.addAttribute("result","cancle");
+			}
+			
+			return "/WEB-INF/view/delete.jsp";
+		}
 		  
 		  // 리플 생성
 		@RequestMapping(params ="method=insertReple") 

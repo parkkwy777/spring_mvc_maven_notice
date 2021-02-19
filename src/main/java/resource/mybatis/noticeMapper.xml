@@ -50,7 +50,9 @@
 	<insert id="insertFile" parameterType="String">
 		insert into noticefile values(NOTICE_SEQ.currval,#{fileName},sysdate,sysdate,'')
 	</insert>
-
+	<delete id="delete" parameterType="notice">
+		DELETE notice WHERE no=#{no} and pass =#{pass}
+	</delete>
 	<!-- 조회수 증가 -->
 	<update id="counting" parameterType="int">
 		update notice

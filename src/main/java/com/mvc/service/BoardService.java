@@ -221,5 +221,11 @@ public class BoardService {
 		dao.inserReple(r);
 	}
 
+
+	public int delete(Notice n) {
+		// TODO Auto-generated method stub
+		return dao.delete(n);
+	}
+
 	
 }

@@ -39,6 +39,9 @@ public interface BoardDao {
 	
 	//댓글 등록
 	public void inserReple(Reple r);
+
+	//게시글 삭제
+	public int delete(Notice n);
 	
 	
 }

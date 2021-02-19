@@ -167,9 +167,6 @@ width:40%;
 	</form>
 </body>
 <script type="text/javascript">
-const firstInputGroup  = document.querySelector(".form-group");
-firstInputGroup.querySelectorAll("input").style.border='solid red';
-console.dir(firstInputGroup.querySelector("input"));
 
 
 </script>
