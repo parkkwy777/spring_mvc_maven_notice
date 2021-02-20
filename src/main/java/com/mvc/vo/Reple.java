@@ -58,6 +58,12 @@ public class Reple {
 	public void setR_etc(String r_etc) {
 		this.r_etc = r_etc;
 	}
+	public String getPass() {
+		return pass;
+	}
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
 	
 	
 	

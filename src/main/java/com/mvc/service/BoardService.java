@@ -213,15 +213,19 @@ public class BoardService {
 		 * r.setR_writer(r.getR_writer().substring (0,r.getR_writer().indexOf(",")));
 		 */
 		
-		
+		 r.setPass(r.getPass().replace(",",""));
 		 r.setR_etc(r.getR_etc().replace(",",""));
 		 r.setR_writer(r.getR_writer().replace(",",""));
 		 
 		
 		dao.inserReple(r);
 	}
-
-
+	
+	public int repleCount(int no) {
+		return dao.repleCount(no);
+	}
+	
+	//게시글 삭제
 	public int delete(Notice n) {
 		// TODO Auto-generated method stub
 		return dao.delete(n);

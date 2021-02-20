@@ -47,6 +47,7 @@ public class BoardCtrl {
 	  public String noticeDetail(@ModelAttribute("nsch") NoticeSch nsh, Notice n, Model d) {
 		  //선택한 게시글 모델로 전달
 		  d.addAttribute("detail",service.getDetailNotice(n.getNo()));
+		  d.addAttribute("repleCount",service.repleCount(n.getNo()));
 		  d.addAttribute("reples",service.getReple(nsh,n.getNo()));
 		 
 		  return "/WEB-INF/view/detail_ajax.jsp";
@@ -79,6 +80,14 @@ public class BoardCtrl {
 		  return "/WEB-INF/view/input.jsp";
 		
 	  }
+	
+		//글 수정
+		@RequestMapping("/update")
+		public String update(Notice n ,Model d) {
+			 d.addAttribute("detail",service.getDetailNotice(n.getNo()));
+			return "/WEB-INF/view/update.jsp";
+		}
+	
 		//글삭제
 		@RequestMapping("/noticeDelete")
 		public String delete() {

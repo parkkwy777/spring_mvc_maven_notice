@@ -146,10 +146,11 @@
 				    +'<div class="input-group mb-3"'
 					+'style="box-sizing: border-box; width: 100%;">'
 					+'<input type="text" name="r_writer" placeholder="아이디"'
-					+'class="form-control" style="width: 10%;"/> <input'
-					+' type="text" class="form-control" name="r_etc"'
-					+'placeholder="Something clever.." style="width: 60%;"/>'
-					+'<div class="input-group-append" style="width: 30%;">'
+					+'class="form-control" style="width: 15%;"/> <input '
+					+'type="password" name="pass" placeholder="비밀번호" class="form-control"'
+					+'style="width: 10%;"/> <input type="text" class="form-control" name="r_etc"'
+					+'placeholder="Something clever.." style="width: 55%;"/>'
+					+'<div class="input-group-append" style="width: 20%;">'
 					+'<button class="btn btn-primary inReple" type="button"'
 							+'style="width: 50%">OK</button>'
 						+'<button id="bb" class="btn btn-danger cansle" type="button"'
@@ -187,7 +188,7 @@
 			location.href=address;
 		});
 		$(".update").click(function(){
-			location.href="/notice/noticeInput";
+			location.href="/notice/update?no="+${detail.no};
 		});
 	});
 	
@@ -290,7 +291,7 @@
 				</div>
 				<div style="float: right;">
 					<span>조회수: ${detail.counting}&nbsp;|&nbsp;추천:
-						${detail.upPoint}&nbsp;|&nbsp; 댓글수: </span>
+						${detail.upPoint}&nbsp;|&nbsp; 댓글수: ${repleCount} </span>
 				</div>
 			</div>
 			<div id="content">${detail.etc}</div>
@@ -363,10 +364,12 @@
 					style="box-sizing: border-box; width: 100%;">
 
 					<input type="text" name="r_writer" placeholder="아이디"
+						class="form-control" style="width: 15%;" />
+					<input type="password" name="pass" placeholder="비밀번호"
 						class="form-control" style="width: 10%;" /> <input
 						type="text" class="form-control" name="r_etc"
-						placeholder="Something clever.." style="width: 60%;"/>
-					<div class="input-group-append" style="width: 30%;">
+						placeholder="Something clever.." style="width: 55%;"/>
+					<div class="input-group-append" style="width: 20%;">
 						<button class="btn btn-primary inReple" id="first" type="button"
 							style="width: 50%">OK</button>
 						<button class="btn btn-danger cansle" type="button"

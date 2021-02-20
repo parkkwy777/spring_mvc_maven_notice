@@ -42,6 +42,9 @@ public interface BoardDao {
 
 	//게시글 삭제
 	public int delete(Notice n);
+
+	//댓글수
+	public int repleCount(int no);
 	
 	
 }

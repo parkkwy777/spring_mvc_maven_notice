@@ -114,6 +114,12 @@
    	
    	</insert>
    	
+   	<!-- 댓글수 -->
+   	<select id="repleCount" parameterType="int" resultType="int">
+   		SELECT COUNT(*) FROM REPLE
+		WHERE NO=#{no}
+   	</select>
+   	
    	<!--파일 조회 -->
 	<select id="getfileName" resultMap="strMap" parameterType="int">
 		SELECT FNAME FROM NOTICEFILE
