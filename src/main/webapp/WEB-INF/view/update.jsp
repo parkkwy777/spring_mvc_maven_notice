@@ -41,10 +41,11 @@ width:40%;
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		var inputSuccess="${inputSuccess}";
-		
-		if(inputSuccess=="true"){
-			$(location).attr("href","/notice/list");
+		var success="${success}";
+		var no=${no}+0;
+		if(success=="success"){
+			alert("수정되었습니다");
+			location.href="/notice/detail?no="+no;
 		}
 		
 		$(".btn-success").click(function(){
@@ -112,7 +113,8 @@ width:40%;
 </head>
 <body>
 
-	<form method="post" action="/notice?method=input" enctype="multipart/form-data">
+	<form method="post" action="/notice?method=update" enctype="multipart/form-data">
+		<input type="hidden" name="no" value="${detail.no}">
 		<div class="container">
 			<br>
 			<h2>공부 게시판</h2>

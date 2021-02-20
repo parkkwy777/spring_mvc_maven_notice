@@ -231,5 +231,11 @@ public class BoardService {
 		return dao.delete(n);
 	}
 
+
+	public void updateNotice(Notice n) {
+		// TODO Auto-generated method stub
+		dao.updateNotice(n);
+	}
+
 	
 }

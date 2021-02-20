@@ -46,7 +46,14 @@
 		INSERT INTO notice values(notice_seq.nextval,#{header},#{title},#{writer},
 							to_char(SYSDATE,'MM-DD'),sysdate,0, 0,#{etc},0,#{pass})
 	</insert>
-
+	
+	<update id="updateNotice" parameterType="notice">
+		UPDATE NOTICE 
+		SET NO=#{no}, HEADER=#{header}, TITLE=#{title}, WRITER=#{writer},
+		TODAY=to_char(SYSDATE,'MM-DD'), TOLIST=sysdate, ETC=#{etc}
+		WHERE NO=#{no}
+	</update>
+	
 	<insert id="insertFile" parameterType="String">
 		insert into noticefile values(NOTICE_SEQ.currval,#{fileName},sysdate,sysdate,'')
 	</insert>

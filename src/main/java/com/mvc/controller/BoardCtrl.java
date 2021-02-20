@@ -82,9 +82,17 @@ public class BoardCtrl {
 	  }
 	
 		//글 수정
-		@RequestMapping("/update")
+		@RequestMapping("/noticeUpdate")
 		public String update(Notice n ,Model d) {
 			 d.addAttribute("detail",service.getDetailNotice(n.getNo()));
+			return "/WEB-INF/view/update.jsp";
+		}
+		@RequestMapping(params="method=update")
+		public String updateContent(Notice n, Model d) {
+			System.out.println("업데이트");
+			service.updateNotice(n);
+			d.addAttribute("success","success");
+			d.addAttribute("no",n.getNo());
 			return "/WEB-INF/view/update.jsp";
 		}
 	

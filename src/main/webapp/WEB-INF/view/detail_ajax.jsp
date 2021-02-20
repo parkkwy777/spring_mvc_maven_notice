@@ -86,6 +86,7 @@
 
 						$("[name=r_writer]").eq(i).val("");
 						$("[name=r_etc]").eq(i).val("");
+						$("[name=pass]").eq(i).val("");
 					}
 				}
 				
@@ -102,13 +103,7 @@
 				    error:function(){
 				      	alert("실패");
 				    }
-				});/* .done(function(data) {
-
-					$("form").attr("action", "/notice/detail?no="+no);  //<<-- 처리 이후 리턴 페이지
-
-					$("form").submit();
-
-				});  */
+				});
 			
 			}	 
 
@@ -188,7 +183,7 @@
 			location.href=address;
 		});
 		$(".update").click(function(){
-			location.href="/notice/update?no="+${detail.no};
+			location.href="/notice/noticeUpdate?no="+${detail.no};
 		});
 	});
 	
@@ -208,7 +203,7 @@
 					success : function(data) {
 						$("[name=r_writer]").val("");
 						$("[name=r_etc]").val("");
-				
+						$("[name=pass]").val("");
 						//조회할때 data 내용 초기화
 						$("#data").empty();
 				

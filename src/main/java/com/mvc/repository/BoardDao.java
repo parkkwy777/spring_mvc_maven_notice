@@ -46,5 +46,8 @@ public interface BoardDao {
 	//댓글수
 	public int repleCount(int no);
 	
+	//게시글 업데이트
+	public void updateNotice(Notice n);
+	
 	
 }
