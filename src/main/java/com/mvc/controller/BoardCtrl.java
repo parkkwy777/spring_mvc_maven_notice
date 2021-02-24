@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mvc.service.BoardService;
@@ -141,6 +142,15 @@ public class BoardCtrl {
 			  
 			  service.insertReple(r); 
 				return result;
+		  }
+		  
+		  
+		  //첨부파일 다운로드
+		  
+		  @RequestMapping(params="method=download")
+		  public String download(@RequestParam("fname") String fname, Model d) {
+			  d.addAttribute("downloadFile", fname);
+			  return "download";
 		  }
 		 
 }

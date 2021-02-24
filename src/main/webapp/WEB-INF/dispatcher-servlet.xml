@@ -96,7 +96,9 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
+<!-- 파일 다운로드 -->
 
+	<bean id="download" class="com.mvc.util.DownloadViewer"/>
 
 <!--  
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">

@@ -185,6 +185,14 @@
 		$(".update").click(function(){
 			location.href="/notice/noticeUpdate?no="+${detail.no};
 		});
+		$(".fileInfo").click(function(){
+			var fname=$(".custom-file-label").text().trim();
+			if(confirm("다운로드 하시겠습니까?")){
+				console.log(fname);
+				$(location).attr("href","/notice?method=download&fname="+fname);
+			}
+			
+		});
 	});
 	
 	//댓글 조회 에이작스처리
@@ -299,10 +307,11 @@
 						<span class="input-group-text">첨부 파일${sts.count}</span>
 					</div>
 					<div class="custom-file">
-						<input type="file" name="report" disabled="disabled"
-							value="${detail.fnames[sts.index-1]}" class="custom-file-input"
+						<a class="fileInfo"><input type="file" name="report"
+							value="${detail.fnames[sts.index-1]}" class="custom-file-input" disabled="disabled"
 							id="file01" /> <label class="custom-file-label" for="file01">
 							${detail.fnames[sts.index-1]!=null?detail.fnames[sts.index-1]:"파일이 존재하지않습니다!!"}</label>
+						</a>
 					</div>
 
 				</div>

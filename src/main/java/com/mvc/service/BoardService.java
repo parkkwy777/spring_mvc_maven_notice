@@ -95,10 +95,7 @@ public class BoardService {
 	//게시글 추가
 	public boolean noticeInput(Notice n) {
 		dao.noticeInput(n);
-		System.out.println("작성글 등록 완료");
-		
 			for (MultipartFile report : n.getReport()) { // 물리적 파일 정리]
-				
 					upload(report);
 				}
 			
@@ -115,7 +112,6 @@ public class BoardService {
 		String fileName=mtf.getOriginalFilename();
 		
 		if(fileName!=null&&!fileName.equals("")) {
-			System.out.println("??");
 			File tmpFile = new File(tmpUpload+fileName);
 			// 해당 폴드에 동일한 파일이 있으면 삭제 처리
 			if(tmpFile.exists()) tmpFile.delete();
